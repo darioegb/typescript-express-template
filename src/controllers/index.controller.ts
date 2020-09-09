@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import { Controller } from '../abstract';
 
 export class IndexController extends Controller {
-
   constructor() {
     super();
     this.initializeRoutes();
@@ -14,9 +13,9 @@ export class IndexController extends Controller {
 
   private index = (_req: Request, res: Response, next: NextFunction) => {
     try {
-      res.sendStatus(200);
+      res.status(200).json({ message: 'server is online' });
     } catch (error) {
       next(error);
     }
-  }
+  };
 }

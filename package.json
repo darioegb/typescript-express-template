@@ -6,13 +6,10 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsc",
-        "dev": "ts-node ./src/server.ts",
-        "start-dev": "nodemon --ext ts --exec ts-node --delay 3 ./src/server.ts",
-        "start-prod": "nodemon ./dist/server.js",
-        "prod": "npm run build && npm run start-prod"
+        "start": "cross-env NODE_ENV=production ts-node --transpile-only src/server.ts",
+        "dev": "cross-env NODE_ENV=development nodemon --watch src --delay 1 --exec 'ts-node' src/server.ts"
     },
-    "author": "Fernando Herrera",
-    "license": "ISC",
+    "author": "Dario Gonzalez",
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "class-transformer": "^0.3.1",
