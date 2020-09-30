@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { Controller } from '../abstract';
 import { UserDto, LogInDto } from '../dtos';
-import { validationMiddleware } from '../middlewares';
+import { RequestWithUser } from '../interfaces';
+import { authMiddleware, validationMiddleware } from '../middlewares';
 import { AuthService, UserService } from '../services';
 import { autoMapper } from '../utils/util';
 
@@ -26,6 +27,7 @@ export class AuthController extends Controller {
       validationMiddleware(LogInDto),
       this.logIn
     );
+    this.router.get(`${this.path}/renew`, authMiddleware, this.renewToken);
   }
 
   private signUp = async (req: Request, res: Response, next: NextFunction) => {
@@ -53,6 +55,22 @@ export class AuthController extends Controller {
       res
         .status(200)
         .json({ data: { token, user: findUser }, message: 'login' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  private renewToken = async (
+    req: RequestWithUser,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const findUser: UserDto = autoMapper(req.user, UserDto);
+      const token = this.authService.createToken(findUser);
+      res
+        .status(200)
+        .json({ data: { token, user: findUser }, message: 'renew' });
     } catch (error) {
       next(error);
     }

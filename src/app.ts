@@ -1,9 +1,8 @@
 // Requires
 import express from 'express';
-import mongoose from 'mongoose';
 import { errorMiddleware } from './middlewares/error.middleware';
 import { Controller } from './abstract';
-import { DBHandler } from './database/db-handler';
+import { DBHandler } from './database/dbHandler';
 
 export default class App {
   public app: express.Application;

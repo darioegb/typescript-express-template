@@ -14,7 +14,7 @@ export class UserService extends BaseCrudService<UserDto, User> {
 
   public async findUserById(
     userId: string,
-    filter: string | undefined
+    filter?: string | undefined
   ): Promise<User> {
     try {
       return await this.findEntityById(userId, filter);
@@ -46,7 +46,9 @@ export class UserService extends BaseCrudService<UserDto, User> {
         `You're user with id ${userId} doesn\'t exists`
       );
     }
-    userData.password = await hash(userData.password, 10);
+    if (userData.password) {
+      userData.password = await hash(userData.password, 10);
+    }
     try {
       return await this.update(userId, userData);
     } catch (error) {

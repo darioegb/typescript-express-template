@@ -3,6 +3,10 @@ import App from '../app';
 import { IndexController } from '../controllers';
 
 describe('Testing Index', () => {
+  
+  afterAll(async () => {
+    await new Promise(resolve => setTimeout(() => resolve(), 500));
+  });
 
   let indexController: IndexController;
   let app: App;

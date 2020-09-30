@@ -2,12 +2,12 @@ import request from 'supertest';
 import App from '../app';
 import { UserController } from '../controllers';
 import { AuthService } from '../services';
-import { DBHandler } from '../database/db-handler';
+import { DBHandler } from '../database/dbHandler';
 import { Page } from '../interfaces';
 import { UserDto } from '../dtos';
 import { Roles } from '../enums';
 import { Collection, Connection, Types } from 'mongoose';
-import { hashSync } from 'bcryptjs';
+import { hash } from 'bcryptjs';
 
 describe('Testing Users', () => {
   let app: App;
@@ -34,7 +34,7 @@ describe('Testing Users', () => {
     db = dbHandler.db;
     userCollection = db.collection('users');
     const authService = new AuthService();
-    loginUser.password = hashSync(loginUser.password, 10);
+    loginUser.password = await hash(loginUser.password, 10);
     loginUserId = await (await userCollection.insertOne(loginUser)).insertedId;
     token = authService.createToken(loginUser);
   });
@@ -53,7 +53,7 @@ describe('Testing Users', () => {
     it('should return a list of users', async () => {
       const { status, body } = await request(app.getServer())
         .get(`${userController.path}`)
-        .set('Authorization', `${token}`);
+        .set('Authorization', `Bearer ${token}`);
 
       expect(status).toBe(200);
       expect(body.data).toBeDefined();
@@ -65,7 +65,7 @@ describe('Testing Users', () => {
         .get(
           `${userController.path}?page=1&size=3&sort=email,desc&filter=firstName lastName email`
         )
-        .set('Authorization', `${token}`);
+        .set('Authorization', `Bearer ${token}`);
 
       expect(status).toBe(200);
       expect(body.data).toBeDefined();
@@ -91,7 +91,7 @@ describe('Testing Users', () => {
 
       const { status, body } = await request(app.getServer())
         .get(`${userController.path}`)
-        .set('Authorization', `${token}`);
+        .set('Authorization', `Bearer ${token}`);
 
       expect(status).toBe(200);
       expect(body.data.items).toHaveLength(0);
@@ -99,23 +99,22 @@ describe('Testing Users', () => {
   });
 
   describe('GET /users/:id', () => {
+    it('should return an error while the user does not exist', async () => {
+      const { status, error } = await request(app.getServer())
+        .get(`${userController.path}/${Types.ObjectId()}`)
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(status).toBe(409);
+      expect(error && error.text).toMatch("You're not user");
+    });
     it('should return a user', async () => {
       const { status, body } = await request(app.getServer())
         .get(`${userController.path}/${loginUserId}`)
-        .set('Authorization', `${token}`);
+        .set('Authorization', `Bearer ${token}`);
 
       expect(status).toBe(200);
       expect(body.data).toBeDefined();
       expect(body.data.email).toBe(loginUser.email);
-    });
-
-    it('should return an error while the user does not exist', async () => {
-      const { status, error } = await request(app.getServer())
-        .get(`${userController.path}/${Types.ObjectId()}`)
-        .set('Authorization', `${token}`);
-
-      expect(status).toBe(409);
-      expect(error && error.text).toMatch("You're not user");
     });
   });
 
@@ -131,7 +130,7 @@ describe('Testing Users', () => {
 
       const { status, body } = await request(app.getServer())
         .post(`${userController.path}`)
-        .set('Authorization', `${token}`)
+        .set('Authorization', `Bearer ${token}`)
         .send(mockUser);
 
       expect(status).toBe(201);
@@ -159,7 +158,7 @@ describe('Testing Users', () => {
 
       const { status, body } = await request(app.getServer())
         .post(`${userController.path}`)
-        .set('Authorization', `${token}`)
+        .set('Authorization', `Bearer ${token}`)
         .send(mockUsers);
 
       expect(status).toBe(201);
@@ -177,7 +176,7 @@ describe('Testing Users', () => {
 
       const { status, error } = await request(app.getServer())
         .post(`${userController.path}`)
-        .set('Authorization', `${token}`)
+        .set('Authorization', `Bearer ${token}`)
         .send(mockUser);
 
       expect(status).toBe(400);
@@ -188,25 +187,10 @@ describe('Testing Users', () => {
   });
 
   describe('UPDATE /users/:id', () => {
-    it('should update a user', async () => {
-      const editUser = await userController.userService.findEntityById(
-        loginUserId
-      );
-      editUser.firstName = 'Login Updated';
-      const { status, body } = await request(app.getServer())
-        .put(`${userController.path}/${loginUserId}`)
-        .set('Authorization', `${token}`)
-        .send(editUser);
-
-      expect(status).toBe(200);
-      expect(body.data).toBeDefined();
-      expect(body.data.firstName).toBe(editUser.firstName);
-    });
-
     it('should return an error while the user does not exist', async () => {
       const { status, error } = await request(app.getServer())
         .put(`${userController.path}/${Types.ObjectId()}`)
-        .set('Authorization', `${token}`)
+        .set('Authorization', `Bearer ${token}`)
         .send({ firstName: 'Test 1' });
 
       expect(status).toBe(404);
@@ -214,27 +198,41 @@ describe('Testing Users', () => {
         "You're user with id"
       );
     });
-  });
-
-  describe('DELETE /users/:id', () => {
-    it('should delete a user', async () => {
+    it('should update a user', async () => {
+      const editUser = await userController.userService.findEntityById(
+        loginUserId
+      );
+      editUser.firstName = 'Login Updated';
       const { status, body } = await request(app.getServer())
-        .delete(`${userController.path}/${loginUserId}`)
-        .set('Authorization', `${token}`);
+        .put(`${userController.path}/${loginUserId}`)
+        .set('Authorization', `Bearer ${token}`)
+        .send(editUser);
 
       expect(status).toBe(200);
       expect(body.data).toBeDefined();
-      expect(body.data.email).toBe(loginUser.email);
+      expect(body.data.firstName).toBe(editUser.firstName);
     });
+  });
+
+  describe('DELETE /users/:id', () => {
     it('should return an error while the user does not exist', async () => {
       const { status, error } = await request(app.getServer())
         .delete(`${userController.path}/${Types.ObjectId()}`)
-        .set('Authorization', `${token}`);
+        .set('Authorization', `Bearer ${token}`);
 
       expect(status).toBe(409);
       expect(error && error.text && JSON.parse(error.text).message).toMatch(
         "You're entity doesn't exist"
       );
+    });
+    it('should delete a user', async () => {
+      const { status, body } = await request(app.getServer())
+        .delete(`${userController.path}/${loginUserId}`)
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(status).toBe(200);
+      expect(body.data).toBeDefined();
+      expect(body.data.email).toBe(loginUser.email);
     });
   });
 });

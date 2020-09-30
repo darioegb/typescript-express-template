@@ -2,7 +2,7 @@ import request from 'supertest';
 import { Connection, Collection } from 'mongoose';
 import App from '../app';
 import { AuthController } from '../controllers';
-import { DBHandler } from '../database/db-handler';
+import { DBHandler } from '../database/dbHandler';
 import { Roles } from '../enums';
 import { hashSync } from 'bcryptjs';
 
@@ -62,4 +62,19 @@ describe('Testing Auth', () => {
       expect(body.data.token).toBeDefined();
     });
   });
+
+  describe('GET /renew', () => {
+    it('response should have data with the new Authorization token', async () => {
+      const findUser = await userCollection.findOne({ email: userData.email });
+      const token = authController.authService.createToken(findUser);
+  
+      const { status, body } = await request(app.getServer())
+        .get(`${authController.path}/renew`).set('Authorization', `Bearer ${token}`);
+  
+      expect(status).toBe(200);
+      expect(body.data).toBeDefined();
+      expect(body.data.user.email).toBe(userData.email);
+    });
+   });
+
 });

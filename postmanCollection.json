@@ -1,0 +1,958 @@
+{
+	"info": {
+		"_postman_id": "a0516175-e438-4dc4-8103-0efadd408259",
+		"name": "Typescript-express-template",
+		"description": "# Node typescript server template",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Index",
+			"item": [
+				{
+					"name": "Index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}",
+							"host": [
+								"{{url}}"
+							]
+						},
+						"description": "# For check api is on"
+					},
+					"response": [
+						{
+							"name": "Index",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}",
+									"host": [
+										"{{url}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "30"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e-zDEPjKlDKDOeae/Xee1+mAHkCNM\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 30 Sep 2020 18:51:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"server is online\"\n}"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "99bb1e9e-ad13-4313-9049-7705823cd57d",
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set('token', jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@test.com\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								},
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "# Login user\r\n\r\nYou must send email and password, recieve userData and token"
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"user@test.com\",\r\n    \"password\": \"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										},
+										"urlencoded": {}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/auth/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "408"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"198-nzSMPgPlSLA9/+hA0UQuH1nsVyQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 30 Sep 2020 18:42:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjcyNGYxOWY1MjZhNzRjZjA2NDhmNTAiLCJpYXQiOjE2MDE0OTEzNjcsImV4cCI6MTYwMTQ5NDk2N30.NSl5KPlyJhyHSZ2yB_uB4AEfr-szLlPyNWu_Pgt0mcI\",\n        \"user\": {\n            \"role\": \"ADMIN\",\n            \"_id\": \"5f724f19f526a74cf0648f50\",\n            \"email\": \"user@test.com\",\n            \"password\": \"$2a$10$Ksaq85pJJK7cMeqmBtmW0uCQSrFzUq6kCm23j4y2QFw58lqHuIDpy\",\n            \"firstName\": \"Login 1\",\n            \"lastName\": \"User 1\"\n        }\n    },\n    \"message\": \"login\"\n}"
+						}
+					]
+				},
+				{
+					"name": "SignUp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5030a8b1-aa5a-4c5b-9a85-bae9a44ec23a",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Test 1\",\r\n    \"lastName\": \"User 1\",\r\n    \"email\": \"test1@test.com\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"USER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								},
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/signup",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						},
+						"description": "# Registration user"
+					},
+					"response": [
+						{
+							"name": "SignUp",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test 1\",\r\n    \"lastName\": \"User 1\",\r\n    \"email\": \"test1@test.com\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"USER\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										},
+										"urlencoded": {}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/auth/signup",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "408"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"198-9voZA/yvgchU44V+b9BZ+LzAVLU\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 30 Sep 2020 18:12:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc0Y2FhOTQzMzgyOTZiYWNkM2FmZTkiLCJpYXQiOjE2MDE0ODk1NzcsImV4cCI6MTYwMTQ5MzE3N30.AOdCTP0QiiYSyWiCsSWMbaYZ7JAaWceJEqhu5JhKXmc\",\n        \"user\": {\n            \"_id\": \"5f74caa94338296bacd3afe9\",\n            \"firstName\": \"Test 1\",\n            \"lastName\": \"User 1\",\n            \"email\": \"test1@test.com\",\n            \"password\": \"$2a$10$9zZgYw18O0C0araC8/dpSO1X6fE.j1RFnkVayud8WPDBee364XX02\",\n            \"role\": \"USER\"\n        }\n    },\n    \"message\": \"signup\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Renew Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f95910a6-77c2-4c97-8477-1d5c055168c6",
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set('token', jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/auth/renew",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"renew"
+							]
+						},
+						"description": "# Renew user token"
+					},
+					"response": [
+						{
+							"name": "Renew Token",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/auth/renew",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"renew"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "408"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"198-FB/Y8fYI2wbN5RijpXhnPs8cSKw\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 30 Sep 2020 20:54:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjcyNGYxOWY1MjZhNzRjZjA2NDhmNTAiLCJpYXQiOjE2MDE0OTkyNDEsImV4cCI6MTYwMTUwMjg0MX0.qlGjt8PRjrAo53vr-GpbNh-F1MUVoamegcSsL-qTb5k\",\n        \"user\": {\n            \"_id\": \"5f724f19f526a74cf0648f50\",\n            \"firstName\": \"Login 1\",\n            \"lastName\": \"User 1\",\n            \"email\": \"user@test.com\",\n            \"password\": \"$2a$10$Ksaq85pJJK7cMeqmBtmW0uCQSrFzUq6kCm23j4y2QFw58lqHuIDpy\",\n            \"role\": \"ADMIN\"\n        }\n    },\n    \"message\": \"renew\"\n}"
+						}
+					]
+				}
+			],
+			"description": "# All Auth endpoints",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c4dd917d-95e6-49f1-a81d-99ff2912efc9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "426a3d20-fa94-4294-a585-5cf4d8e89e6e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Find users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users?page=1&size=3&sort=lastName,desc&filter=firstName lastName email role",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								},
+								{
+									"key": "sort",
+									"value": "lastName,desc"
+								},
+								{
+									"key": "filter",
+									"value": "firstName lastName email role"
+								}
+							]
+						},
+						"description": "# Get all users, can paginate, sort and filter data\r\n\r\n**QueryParams**\r\n```typescript\r\n// Number of page to search\r\npage: number;\r\n// Size of page \r\nsize: number;\r\n// Sort by and Sort Order by ex. name, asc \r\nsort: string;\r\n// Filter fields by ex. name email\r\nfilter: string;\r\n```\r\n\r\n"
+					},
+					"response": [
+						{
+							"name": "Find users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/users?page=1&size=3&sort=lastName,desc&filter=firstName lastName email role",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "size",
+											"value": "3"
+										},
+										{
+											"key": "sort",
+											"value": "lastName,desc"
+										},
+										{
+											"key": "filter",
+											"value": "firstName lastName email role"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "439"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1b7-PMoRjEhtp+yH08KxY1HUz13G38g\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 30 Sep 2020 18:45:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"items\": [\n            {\n                \"_id\": \"5f72519895bda568b8ccff04\",\n                \"firstName\": \"Test 6\",\n                \"lastName\": \"User 6\",\n                \"email\": \"test6@test.com\",\n                \"role\": \"USER\"\n            },\n            {\n                \"_id\": \"5f724f19f526a74cf0648f50\",\n                \"firstName\": \"Login 1\",\n                \"lastName\": \"User 1\",\n                \"email\": \"user@test.com\",\n                \"role\": \"ADMIN\"\n            },\n            {\n                \"_id\": \"5f74d2194338296bacd3afea\",\n                \"firstName\": \"Test 1\",\n                \"lastName\": \"User 1\",\n                \"email\": \"test1@test.com\",\n                \"role\": \"USER\"\n            }\n        ],\n        \"number\": 1,\n        \"size\": 3,\n        \"totalItems\": 3,\n        \"totalPages\": 1\n    },\n    \"message\": \"findByPage\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Find user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b662277a-9b4c-4998-9600-9a5530cea278",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "3f6090ad-0da4-4d0f-87db-cbb029d5892a",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "{{userIdParamDescription}}"
+								}
+							]
+						},
+						"description": "# Get single user by id\r\n\r\n```javascript\r\n// Path variable\r\nid: string\r\n```"
+					},
+					"response": [
+						{
+							"name": "Find user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/users/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "",
+											"description": "{{userIdParamDescription}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "218"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"da-SMnkwIDs5t11YTa72ptGtAvX894\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 30 Sep 2020 18:45:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"_id\": \"5f724f19f526a74cf0648f50\",\n        \"firstName\": \"Login 1\",\n        \"lastName\": \"User 1\",\n        \"email\": \"user@test.com\",\n        \"password\": \"$2a$10$Ksaq85pJJK7cMeqmBtmW0uCQSrFzUq6kCm23j4y2QFw58lqHuIDpy\",\n        \"role\": \"ADMIN\"\n    },\n    \"message\": \"findOne\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Test 1\",\r\n    \"lastName\": \"User 1\",\r\n    \"email\": \"test1@test.com\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"USER\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								},
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "# Register one or many users\r\n\r\nFor example you can send a single object\r\n```json\r\n{\r\n    email: 'test@test.com',\r\n    password: 'secret',\r\n    firstName: 'Test',\r\n    lastName: 'User',\r\n    role: Roles.User\r\n}\r\n```\r\nOr you cand send a list of users\r\n```json\r\n[\r\n    {\r\n        email: 'user1@gmail.com',\r\n        password: 'secret',\r\n        firstName: 'Test 1',\r\n        lastName: 'User',\r\n        role: Roles.User\r\n    },\r\n    {\r\n        email: 'user2@gmail.com',\r\n        password: 'secret',\r\n        firstName: 'Test 2',\r\n        lastName: 'User',\r\n        role: Roles.User\r\n    }\r\n]\r\n```"
+					},
+					"response": [
+						{
+							"name": "Create user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Test 1\",\r\n    \"lastName\": \"User 1\",\r\n    \"email\": \"test1@test.com\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"USER\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										},
+										"urlencoded": {}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/users",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "217"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d9-M0vn2DaPbKEnLOB5c1N5rCuRB1I\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 30 Sep 2020 18:44:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"_id\": \"5f74d2194338296bacd3afea\",\n        \"firstName\": \"Test 1\",\n        \"lastName\": \"User 1\",\n        \"email\": \"test1@test.com\",\n        \"password\": \"$2a$10$Kt6YnGrkz7UvsQ811JmmCuoiAyhA/xVRZWMCshOL8XtBAYPRwDwea\",\n        \"role\": \"USER\"\n    },\n    \"message\": \"created\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Login 1\",\r\n    \"lastName\": \"User 1\",\r\n    \"role\": \"ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								},
+								"urlencoded": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "{{userIdParamDescription}}"
+								}
+							]
+						},
+						"description": "# Update some user data by id\r\n\r\nYou can update all userData or part of properties or just a single property\r\n\r\n```javascript\r\n// Path variable\r\nid: string\r\n```"
+					},
+					"response": [
+						{
+							"name": "Update user",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Login 1\",\r\n    \"lastName\": \"User 1\",\r\n    \"role\": \"ADMIN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										},
+										"urlencoded": {}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/users/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "",
+											"description": "{{userIdParamDescription}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "218"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"da-IzYMRf8fEbNLRRidg0vkQOU1IQE\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 30 Sep 2020 18:44:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"_id\": \"5f724f19f526a74cf0648f50\",\n        \"firstName\": \"Login 1\",\n        \"lastName\": \"User 1\",\n        \"email\": \"user@test.com\",\n        \"password\": \"$2a$10$Ksaq85pJJK7cMeqmBtmW0uCQSrFzUq6kCm23j4y2QFw58lqHuIDpy\",\n        \"role\": \"ADMIN\"\n    },\n    \"message\": \"updated\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "{{userIdParamDescription}}"
+								}
+							]
+						},
+						"description": "# Delete user by id\r\n\r\n```javascript\r\n// Path variable\r\nid: string\r\n```"
+					},
+					"response": [
+						{
+							"name": "Delete user",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/users/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5f74caa94338296bacd3afe9",
+											"description": "{{userIdParamDescription}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "225"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e1-UQkhjCfPt2bwqcnyXCx1JummRso\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 30 Sep 2020 18:43:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"role\": \"USER\",\n        \"_id\": \"5f74caa94338296bacd3afe9\",\n        \"firstName\": \"Test 1\",\n        \"lastName\": \"User 1\",\n        \"email\": \"test1@test.com\",\n        \"password\": \"$2a$10$9zZgYw18O0C0araC8/dpSO1X6fE.j1RFnkVayud8WPDBee364XX02\",\n        \"__v\": 0\n    },\n    \"message\": \"deleted\"\n}"
+						}
+					]
+				}
+			],
+			"description": "# All user CRUD endpoints",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "abef0f53-0212-4a40-9beb-4ff6f6da52ad",
+						"type": "text/javascript",
+						"exec": [
+							"const _id = pm.request.url.variables.indexOf('id');",
+							"if (_id !== -1 && pm.request.method !== 'DELETE') {",
+							"    const token = pm.variables.get('token');",
+							"    const parts = token.split('.'); // header, payload, signature",
+							"    const payload = JSON.parse(atob(parts[1]));",
+							"    pm.request.url.variables.idx(_id).value = payload._id;",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1fd1627d-e6e8-43bd-879b-0867e2cd9460",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "69e7078d-8a20-40b2-8d27-56aef242b9c2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "5e1168e2-e768-4337-84a7-7e4523ed24e9",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "ea2b6aca-b10f-4789-9758-76eaf16d4f0d",
+			"key": "userIdParamDescription",
+			"value": "User id"
+		},
+		{
+			"id": "f22da2bb-be59-4a08-8415-d852c73385f7",
+			"key": "url",
+			"value": "localhost:3000"
+		},
+		{
+			"id": "66f4cf1b-08cd-4d5d-86d6-f80b866f3975",
+			"key": "token",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -40,7 +40,7 @@ export abstract class BaseCrudService<S, D> {
     const splitSort: string[] | undefined = sort ? sort.split(',') : undefined;
     const sortObject: any = splitSort
       ? { [splitSort[0]]: splitSort[1] }
-      : { firstName: 'asc' };
+      : { _id: 'asc' };
     const filterValue = filter ? filter : '';
     const entities: D[] = await this.model
       .find()

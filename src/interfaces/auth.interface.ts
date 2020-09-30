@@ -6,5 +6,5 @@ export interface DataStoredInToken {
 }
 
 export interface RequestWithUser extends Request {
-  _user: User;
+  user: User;
 }

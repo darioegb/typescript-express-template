@@ -9,8 +9,7 @@ const userSchema = new Schema({
     lastName: { type: String, required: true, minlength: 3, maxlength: 30  },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    role: { type: String, default: 'USER_ROLE', enum: Object.values(Roles) },
-    img: { type: String, required: false }
+    role: { type: String, default: 'USER_ROLE', enum: Object.values(Roles) }
 });
 
 userSchema.plugin(mongooseUniqueValidator, { message: '{PATH} must be unique' });
