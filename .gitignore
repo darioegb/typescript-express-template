@@ -26,3 +26,4 @@ package-lock.json
 Thumbs.db
 
 .env
+coverage

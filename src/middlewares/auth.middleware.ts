@@ -8,7 +8,7 @@ export async function authMiddleware(req: Request, _res: Response, next: NextFun
   const headers = req.headers;
 
   if (headers && headers.authorization) {
-    const secret: string = process.env.JWT_SECRET || 'secretKey';
+    const secret: string = process.env.JWT_SECRET;
 
     try {
       const verificationResponse = verify(headers.authorization, secret) as DataStoredInToken;

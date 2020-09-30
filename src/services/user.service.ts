@@ -23,18 +23,17 @@ export class UserService extends BaseCrudService<UserDto, User> {
     }
   }
 
-  public async createUser(userData: UserDto): Promise<User> {
+  public async createUser(userData: UserDto | UserDto[]): Promise<User | User[]> {
     validateObjectData(userData, 'UserData');
-    const emailExist: boolean = await this.model.exists({
-      email: userData.email,
-    });
-    if (emailExist) {
-      throw new HttpException(
-        409,
-        `You're email ${userData.email} already exists`
-      );
+    if (userData instanceof  Array) {
+      userData.forEach(async (item) => {
+        await this.checkUserExist(item);
+        await this.hashUserPassword(item);
+      });
+    } else {
+      await this.checkUserExist(userData);
+      await this.hashUserPassword(userData);
     }
-    userData.password = await hash(userData.password, 10);
     return await this.create(userData);
   }
 
@@ -53,6 +52,22 @@ export class UserService extends BaseCrudService<UserDto, User> {
     } catch (error) {
       throw new HttpException(409, 'You\'re not user');
     }
+  }
+
+  private async checkUserExist(userData: UserDto) {
+    const emailExist: boolean = await this.model.exists({
+      email: userData.email,
+    });
+    if (emailExist) {
+      throw new HttpException(
+        409,
+        `You're email ${userData.email} already exists`
+      );
+    }
+  }
+
+  private async hashUserPassword(userData: UserDto) {
+    userData.password = await hash(userData.password, 10);
   }
 
 }

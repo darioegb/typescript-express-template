@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { errorMiddleware } from './middlewares/error.middleware';
 import { Controller } from './abstract';
+import { DBHandler } from './database/db-handler';
 
 export default class App {
   public app: express.Application;
@@ -45,19 +46,8 @@ export default class App {
     });
   }
 
-  private connectToTheDatabase() {
-    const { MONGO_PATH, MONGO_DATABASE } = process.env;
-    const options = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    };
-    mongoose
-      .connect(`mongodb://${MONGO_PATH}/${MONGO_DATABASE}?authSource=admin`, {
-        ...options
-      })
-      .then(() => console.log('DB: \x1b[32m%s\x1b[0m', 'online'))
-      .catch((err) => err);
+  private async connectToTheDatabase() {
+    const dbHandler = new DBHandler();
+    await dbHandler.connect();
   }
 }

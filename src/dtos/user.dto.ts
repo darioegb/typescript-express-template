@@ -1,4 +1,4 @@
-import { IsString, IsEmail, Length, IsDefined, IsEnum } from 'class-validator';
+import { IsString, IsEmail, Length, IsEnum, IsOptional, IsNotEmpty } from 'class-validator';
 import { Roles } from '../enums';
 
 export class UserDto {
@@ -11,38 +11,40 @@ export class UserDto {
     password?: string,
     role?: Roles
   ) {
-    this._id = _id!;
-    this.firstName = firstName!;
-    this.lastName = lastName!;
-    this.email = email!;
-    this.password = password!;
-    this.role = role!;
+    this._id = _id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.role = role;
   }
   
   readonly _id!: string;
 
   @IsString()
   @Length(3, 30)
-  @IsDefined()  
+  @IsNotEmpty()
   public firstName: string;
 
   @IsString()
   @Length(3, 30)
-  @IsDefined()
+  @IsNotEmpty()
   public lastName: string;
 
   @IsEmail()
-  @IsDefined()  
+  @IsNotEmpty()
   public email: string;
 
   @IsString()
-  @IsDefined()  
+  @IsNotEmpty()
   public password: string;
 
   @IsEnum(Roles)
-  @IsDefined()  
+  @IsNotEmpty()
   public role: Roles;
 
+  @IsOptional()
+  @IsString()
   public img?: string;
 
 }

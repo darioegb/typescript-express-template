@@ -7,8 +7,11 @@
     "outDir": "build",
     "sourceMap": true,
     "experimentalDecorators": true,
-    "allowJs": true
+    "allowJs": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/*.test.ts", "**/*.spec.ts"]
 }

@@ -9,7 +9,7 @@ import { Controller } from '../abstract';
 import { authMiddleware } from '../middlewares';
 
 export class UserController extends Controller {
-  private userService = new UserService();
+  public userService = new UserService();
 
   constructor() {
     super();
@@ -18,10 +18,10 @@ export class UserController extends Controller {
   }
 
   protected initializeRoutes(): void {
-    this.router.get(`${this.path}/`, authMiddleware, this.getUsersByPage);
+    this.router.get(`${this.path}`, authMiddleware, this.getUsersByPage);
     this.router.get(`${this.path}/:id`, authMiddleware, this.getUserById);
     this.router.post(
-      `${this.path}/`,
+      `${this.path}`,
       [authMiddleware,
       validationMiddleware(UserDto)],
       this.createUser
@@ -62,8 +62,8 @@ export class UserController extends Controller {
       );
       result.items = result.items.map((item) => autoMapper(item, UserDto));
       res.status(200).json({ data: result, message: 'findByPage' });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      next(error);
     }
   };
 
@@ -96,13 +96,16 @@ export class UserController extends Controller {
     const userData: UserDto = req.body;
     
     try {
-      const user: UserDto = autoMapper(
-        await this.userService.createUser(userData),
-        UserDto
-      );
-      res.status(201).json({ data: user, message: 'created' });
-    } catch (err) {
-      next(err);
+      const user = await this.userService.createUser(userData);
+      let createdUser: UserDto | UserDto[];  
+      if (user instanceof Array) {
+        createdUser = user.map((item) => autoMapper(item, UserDto));
+      } else {
+        createdUser = autoMapper(user, UserDto);
+      }
+      res.status(201).json({ data: createdUser, message: 'created' });
+    } catch (error) {
+      next(error);
     }
   };
 

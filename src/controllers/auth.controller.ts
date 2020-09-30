@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { Controller } from '../abstract';
 import { UserDto, LogInDto } from '../dtos';
-import { validationMiddleware, authMiddleware } from '../middlewares';
+import { validationMiddleware } from '../middlewares';
 import { AuthService, UserService } from '../services';
 import { autoMapper } from '../utils/util';
 
 export class AuthController extends Controller {
-  private authService = new AuthService();
-  private userService = new UserService();
+  public authService = new AuthService();
+  public userService = new UserService();
 
   constructor() {
     super();
@@ -18,14 +18,12 @@ export class AuthController extends Controller {
   protected initializeRoutes(): void {
     this.router.post(
       `${this.path}/signup`,
-      [authMiddleware,
-        validationMiddleware(UserDto)],
+      validationMiddleware(UserDto),
       this.signUp
     );
     this.router.post(
       `${this.path}/login`,
-      [authMiddleware,
-        validationMiddleware(LogInDto)],
+      validationMiddleware(LogInDto),
       this.logIn
     );
   }
@@ -39,9 +37,11 @@ export class AuthController extends Controller {
         UserDto
       );
       const token = this.authService.createToken(signUpUser);
-      res.status(201).json({ data: { token, user: signUpUser }, message: 'signup' });
-    } catch (err) {
-      next(err);
+      res
+        .status(201)
+        .json({ data: { token, user: signUpUser }, message: 'signup' });
+    } catch (error) {
+      next(error);
     }
   };
 
@@ -50,7 +50,9 @@ export class AuthController extends Controller {
 
     try {
       const { token, findUser } = await this.authService.login(userData);
-      res.status(200).json({ data: { token, user: findUser }, message: 'login' });
+      res
+        .status(200)
+        .json({ data: { token, user: findUser }, message: 'login' });
     } catch (error) {
       next(error);
     }

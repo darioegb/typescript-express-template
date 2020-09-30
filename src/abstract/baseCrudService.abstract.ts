@@ -3,7 +3,7 @@ import { Page } from '../interfaces';
 import { HttpException } from '../exceptions';
 
 export abstract class BaseCrudService<S, D> {
-  protected model!: Model<D & Document, {}>;
+  public model!: Model<D & Document, {}>;
 
   /**
    * Get entity by id
@@ -11,7 +11,7 @@ export abstract class BaseCrudService<S, D> {
    */
   public async findEntityById(
     id: string,
-    filter: string | undefined
+    filter?: string
   ): Promise<D> {
     const filterValue = filter ? filter : '';
     const findEntity: D | null = await this.model
@@ -66,10 +66,9 @@ export abstract class BaseCrudService<S, D> {
    * Create entity
    * @param entityData entityDTO
    */
-  public async create(entityData: S): Promise<D> {
+  public async create(entityData: S | S[]): Promise<D | D[]> {
     try {
-      const newEntity = new this.model({ ...entityData });
-      const createdEntity: D = await newEntity.save();
+      const createdEntity = await this.model.create(entityData as any);
       return createdEntity;
     } catch (error) {
       throw new HttpException(400, error.message);
