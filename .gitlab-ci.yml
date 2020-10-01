@@ -10,13 +10,9 @@ sonarcloud-check:
     cache:
       key: '${CI_JOB_NAME}'
       paths:
-        - .sonar/cache
-    services:
-      - mongo    
+        - .sonar/cache   
     script:
-      - export DB_TEST_URL=mongodb://localhost:27017/testDB
       - npm run lint
-      - npm run test
       - sonar-scanner
     only:
       - merge_requests
