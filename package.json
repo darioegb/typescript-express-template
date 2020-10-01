@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "test": "jest --forceExit --detectOpenHandles",
+        "test": "jest --coverage --forceExit --detectOpenHandles",
         "test:watch": "jest --coverage --watchAll --runInBand --detectOpenHandles",
         "build": "tsc",
         "dev": "nodemon --ext ts --exec ts-node --delay 3 ./src/server.ts",
@@ -41,11 +41,12 @@
         "tslint-config-airbnb": "^5.11.2"
     },
     "jest": {
+        "testTimeout": 60000,
         "preset": "ts-jest",
         "testEnvironment": "node",
         "coverageThreshold": {
             "global": {
-                "branches": 80,
+                "branches": 70,
                 "functions": 80,
                 "lines": 80,
                 "statements": 80
