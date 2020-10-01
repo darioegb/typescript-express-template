@@ -11,11 +11,7 @@ export function validationMiddleware(
     validate(plainToClass(type, req.body), { skipMissingProperties }).then(
       (errors: ValidationError[]) => {
         if (errors.length > 0) {
-          const message = errors
-            .map((error: ValidationError) =>
-              Object.values(error.constraints ? error.constraints : [])
-            )
-            .join(', ');
+          const message = generateMessageFromErrors(errors);
           next(new HttpException(400, message));
         } else {
           next();
@@ -23,4 +19,11 @@ export function validationMiddleware(
       }
     );
   };
+
+  function generateMessageFromErrors(errors: ValidationError[]) {
+    return errors
+      .map((error: ValidationError) => Object.values(error.constraints ? error.constraints : [])
+      )
+      .join(', ');
+  }
 }

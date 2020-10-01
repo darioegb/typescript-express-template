@@ -2,7 +2,6 @@ import { IsString, IsEmail, Length, IsEnum, IsNotEmpty } from 'class-validator';
 import { Roles } from '../enums';
 
 export class UserDto {
-  
   constructor(
     _id?: string,
     firstName?: string,
@@ -18,7 +17,7 @@ export class UserDto {
     this.password = password;
     this.role = role;
   }
-  
+
   readonly _id!: string;
 
   @IsString()
@@ -42,5 +41,4 @@ export class UserDto {
   @IsEnum(Roles)
   @IsNotEmpty()
   public role: Roles;
-
 }

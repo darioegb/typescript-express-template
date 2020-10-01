@@ -14,21 +14,19 @@ export class DBHandler {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
-      useFindAndModify: false
+      useFindAndModify: false,
     };
     mongoose
       .connect(
         `mongodb://${MONGO_PATH}/${
           isTestEnv ? MONGO_TEST_DATABASE : MONGO_DATABASE
         }?authSource=admin`,
-        {
-          ...options
-        }
+        { ...options }
       )
       .then(() =>
         !isTestEnv ? console.log('DB: \x1b[32m%s\x1b[0m', 'online') : null
       )
-      .catch((error) => error);
+      .catch((error: any) => (!isTestEnv ? console.error(error) : null));
   }
 
   /**
@@ -45,7 +43,7 @@ export class DBHandler {
   public async clear() {
     const collections = this.db.collections;
 
-    for (const key in collections) {
+    for (const key of Object.keys(collections)) {
       const collection = collections[key];
       await collection.deleteMany({});
     }

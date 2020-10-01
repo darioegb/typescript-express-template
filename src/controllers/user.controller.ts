@@ -22,14 +22,12 @@ export class UserController extends Controller {
     this.router.get(`${this.path}/:id`, authMiddleware, this.getUserById);
     this.router.post(
       `${this.path}`,
-      [authMiddleware,
-      validationMiddleware(UserDto)],
+      [authMiddleware, validationMiddleware(UserDto)],
       this.createUser
     );
     this.router.put(
       `${this.path}/:id`,
-      [authMiddleware,
-        validationMiddleware(UserDto, true)],
+      [authMiddleware, validationMiddleware(UserDto, true)],
       this.updateUser
     );
     this.router.delete(`${this.path}/:id`, authMiddleware, this.deleteUser);
@@ -40,18 +38,7 @@ export class UserController extends Controller {
     res: Response,
     next: NextFunction
   ) => {
-    const page: number | undefined = req.query.page
-      ? Number(req.query.page)
-      : undefined;
-    const size: number | undefined = req.query.size
-      ? Number(req.query.size)
-      : undefined;
-    const sort: string | undefined = req.query.sort
-      ? String(req.query.sort)
-      : undefined;
-    const filter: string | undefined = req.query.filter
-      ? String(req.query.filter)
-      : undefined;
+    const { page, size, sort, filter } = this.getPagingAndSortParams(req);
 
     try {
       const result = await this.userService.findEntityByPage(
@@ -60,12 +47,12 @@ export class UserController extends Controller {
         sort,
         filter
       );
-      result.items = result.items.map((item) => autoMapper(item, UserDto));
+      result.items = result.items.map(item => autoMapper(item, UserDto));
       res.status(200).json({ data: result, message: 'findByPage' });
     } catch (error) {
       next(error);
     }
-  };
+  }
 
   private getUserById = async (
     req: Request,
@@ -73,9 +60,7 @@ export class UserController extends Controller {
     next: NextFunction
   ) => {
     const userId: string = req.params.id;
-    const filter: string | undefined = req.query.filter
-      ? String(req.query.filter)
-      : undefined;
+    const { filter } = this.getPagingAndSortParams(req);
 
     try {
       const findOneUser: UserDto = autoMapper(
@@ -86,7 +71,7 @@ export class UserController extends Controller {
     } catch (error) {
       next(error);
     }
-  };
+  }
 
   private createUser = async (
     req: Request,
@@ -94,12 +79,12 @@ export class UserController extends Controller {
     next: NextFunction
   ) => {
     const userData: UserDto = req.body;
-    
+
     try {
       const user = await this.userService.createUser(userData);
-      let createdUser: UserDto | UserDto[];  
+      let createdUser: UserDto | UserDto[];
       if (user instanceof Array) {
-        createdUser = user.map((item) => autoMapper(item, UserDto));
+        createdUser = user.map(item => autoMapper(item, UserDto));
       } else {
         createdUser = autoMapper(user, UserDto);
       }
@@ -107,7 +92,7 @@ export class UserController extends Controller {
     } catch (error) {
       next(error);
     }
-  };
+  }
 
   private updateUser = async (
     req: Request,
@@ -126,7 +111,7 @@ export class UserController extends Controller {
     } catch (error) {
       next(error);
     }
-  };
+  }
 
   private deleteUser = async (
     req: Request,
@@ -141,6 +126,5 @@ export class UserController extends Controller {
     } catch (error) {
       next(error);
     }
-  };
-
+  }
 }

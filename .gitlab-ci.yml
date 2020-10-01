@@ -10,6 +10,8 @@ sonarcloud-check:
     paths:
       - .sonar/cache
   script:
+    - npm run lint
+    - npm run test
     - sonar-scanner
   only:
     - merge_requests

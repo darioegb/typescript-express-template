@@ -17,5 +17,5 @@ export class IndexController extends Controller {
     } catch (error) {
       next(error);
     }
-  };
+  }
 }

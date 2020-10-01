@@ -45,7 +45,7 @@ export class AuthController extends Controller {
     } catch (error) {
       next(error);
     }
-  };
+  }
 
   private logIn = async (req: Request, res: Response, next: NextFunction) => {
     const userData: UserDto = req.body;
@@ -58,7 +58,7 @@ export class AuthController extends Controller {
     } catch (error) {
       next(error);
     }
-  };
+  }
 
   private renewToken = async (
     req: RequestWithUser,
@@ -74,5 +74,5 @@ export class AuthController extends Controller {
     } catch (error) {
       next(error);
     }
-  };
+  }
 }
