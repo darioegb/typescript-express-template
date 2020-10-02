@@ -9,12 +9,13 @@ export class DBHandler {
    */
   public async connect() {
     const isTestEnv = process.env.NODE_ENV === 'test';
+    const MONGO_TEST_DATABASE = 'testDB';
+    const MONGO_TEST_PATH = '127.0.0.1';
     const {
       MONGO_USER,
       MONGO_PASSWORD,
       MONGO_PATH,
       MONGO_DATABASE,
-      MONGO_TEST_DATABASE,
     } = process.env;
     const options = {
       useNewUrlParser: true,
@@ -22,13 +23,11 @@ export class DBHandler {
       useCreateIndex: true,
       useFindAndModify: false,
     };
+    const url = isTestEnv
+      ? `mongodb://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}/${MONGO_DATABASE}?authSource=admin`
+      : `mongodb://${MONGO_TEST_PATH}/${MONGO_TEST_DATABASE}?authSource=admin`;
     mongoose
-      .connect(
-        `mongodb://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}/${
-          isTestEnv ? MONGO_TEST_DATABASE : MONGO_DATABASE
-        }?authSource=admin`,
-        { ...options }
-      )
+      .connect(url, { ...options })
       .then(() =>
         !isTestEnv ? console.log('DB: \x1b[32m%s\x1b[0m', 'online') : null
       )

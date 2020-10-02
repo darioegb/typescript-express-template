@@ -15,8 +15,6 @@ sonarcloud-check:
   services:
     - mongo
   script:
-    - MONGO_PATH=localhost:27017
-    - MONGO_TEST_DATABASE=testDB
     - npm run lint
     - npm run test
     - sonar-scanner
