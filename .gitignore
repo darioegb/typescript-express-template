@@ -1,6 +1,5 @@
 # compiled output
 /build
-package-lock.json
 
 # dependencies
 /node_modules
@@ -26,4 +25,9 @@ package-lock.json
 Thumbs.db
 
 .env
+
+#test coverage
 coverage
+
+#sonarcloud
+.scannerwork
