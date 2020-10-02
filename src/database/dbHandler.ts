@@ -10,7 +10,7 @@ export class DBHandler {
   public async connect() {
     const isTestEnv = process.env.NODE_ENV === 'test';
     const MONGO_TEST_DATABASE = 'testDB';
-    const MONGO_TEST_PATH = '127.0.0.1';
+    const MONGO_TEST_PATH = 'admin:REauxJJLZwdDix3@cluster0.ckn76.mongodb.net';
     const {
       MONGO_USER,
       MONGO_PASSWORD,
@@ -24,8 +24,8 @@ export class DBHandler {
       useFindAndModify: false,
     };
     const url = isTestEnv
-      ? `mongodb://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}/${MONGO_DATABASE}?authSource=admin`
-      : `mongodb://${MONGO_TEST_PATH}/${MONGO_TEST_DATABASE}?authSource=admin`;
+      ? `mongodb+srv://${MONGO_TEST_PATH}/${MONGO_TEST_DATABASE}?authSource=admin`
+      : `mongodb://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}/${MONGO_DATABASE}?authSource=admin`;
     mongoose
       .connect(url, { ...options })
       .then(() =>
