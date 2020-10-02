@@ -9,7 +9,13 @@ export class DBHandler {
    */
   public async connect() {
     const isTestEnv = process.env.NODE_ENV === 'test';
-    const { MONGO_PATH, MONGO_DATABASE, MONGO_TEST_DATABASE } = process.env;
+    const {
+      MONGO_USER,
+      MONGO_PASSWORD,
+      MONGO_PATH,
+      MONGO_DATABASE,
+      MONGO_TEST_DATABASE,
+    } = process.env;
     const options = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -18,7 +24,7 @@ export class DBHandler {
     };
     mongoose
       .connect(
-        `mongodb://${MONGO_PATH}/${
+        `mongodb://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}/${
           isTestEnv ? MONGO_TEST_DATABASE : MONGO_DATABASE
         }?authSource=admin`,
         { ...options }
