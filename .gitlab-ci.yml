@@ -3,7 +3,8 @@ image: node:latest
 Production:
   image: ruby:latest
   services:
-    node:latest
+    node:
+      image: node:latest
   only:
     - master
   script:
