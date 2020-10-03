@@ -1,10 +1,9 @@
 image: node:latest
+
+services:
+  - ruby
   
 Production:
-  image: ruby:latest
-  services:
-    node:
-      image: node:latest
   only:
     - master
   script:
