@@ -2,10 +2,11 @@ image: node:latest
   
 Production:
   image: ruby:latest
+  services:
+    node:latest
   only:
     - master
   script:
-    - apt-get install npm
     - npm install
     - npm run build && cd build
     - apt-get update -qy
