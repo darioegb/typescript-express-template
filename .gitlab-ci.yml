@@ -22,6 +22,9 @@ Production:
   only:
     - master
   stage: deploy_staging
+  before_script:
+  - npm install
+  - npm build && cd build
   script:
     - apt-get update -qy
     - apt-get install -y ruby-dev
