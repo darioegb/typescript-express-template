@@ -24,8 +24,6 @@
 .DS_Store
 Thumbs.db
 
-.env
-
 #test coverage
 coverage
 

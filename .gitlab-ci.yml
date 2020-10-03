@@ -1,8 +1,24 @@
 before_script:
   - npm install
+
+stages:
+  - build
+  - test
+  - deploy
+
+compile-project:
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - build/
+  
+
 variables:
   SONAR_USER_HOME: '${CI_PROJECT_DIR}/.sonar' # Defines the location of the analysis task cache
   GIT_DEPTH: '0' # Tells git to fetch all the branches of the project, required by the analysis task
+
 sonarcloud-check:
   image:
     name: sonarsource/sonar-scanner-cli:latest
@@ -12,8 +28,7 @@ sonarcloud-check:
     paths:
       - node_modules/
       - .sonar/cache
-  services:
-    - mongo
+  stage: test
   script:
     - npm run lint
     - npm run test
@@ -22,3 +37,16 @@ sonarcloud-check:
     - merge_requests
     - master
     - develop
+
+production:
+  image: ruby:latest
+  stage: deploy
+  dependencies:
+    - compile-project
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
+  only:
+    - master

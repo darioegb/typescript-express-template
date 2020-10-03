@@ -5,7 +5,7 @@
     "scripts": {
         "test": "jest --coverage --forceExit --detectOpenHandles",
         "test:watch": "jest --coverage --watchAll --runInBand --detectOpenHandles",
-        "build": "tsc",
+        "build": "tsc && cp .env ./build/.env",
         "dev": "nodemon --ext ts --exec ts-node --delay 3 ./src/server.ts",
         "prod": "nodemon ./dist/server.js",
         "lint": "tslint -p tsconfig.json -c tslint.json"
