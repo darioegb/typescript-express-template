@@ -1,15 +1,29 @@
-image: node:12.18.1
+image: node:lastest
 
-before_script:
-  - npm install
-  
-production:
-  image: ruby:latest
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - test
+  - deploy_staging
+
+# Job 1:
+Test:
+  stage: test
   script:
-    - npm run build && cd build
+    - npm install
+    - npm run test
+
+# Job 2:
+# Deploy to staging
+Production:
+  image: ruby:latest
+  only:
+    - master
+  stage: deploy_staging
+  script:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
-  only:
-    - master
