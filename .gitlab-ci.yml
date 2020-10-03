@@ -2,25 +2,11 @@ image: node:12.18.1
 
 before_script:
   - npm install
-
-stages:
-  - build
-  - deploy
-
-compile-project:
-  stage: build
-  script:
-    - npm run build
-  artifacts:
-    paths:
-      - build/
-
+  
 production:
   image: ruby:latest
-  stage: deploy
-  dependencies:
-    - compile-project
   script:
+    - npm run build && cd build
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
