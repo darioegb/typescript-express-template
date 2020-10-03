@@ -2,18 +2,8 @@ before_script:
   - npm install
 
 stages:
-  - build
   - test
   - deploy
-
-compile-project:
-  stage: build
-  script:
-    - npm run build
-  artifacts:
-    paths:
-      - build/
-  
 
 variables:
   SONAR_USER_HOME: '${CI_PROJECT_DIR}/.sonar' # Defines the location of the analysis task cache
@@ -41,9 +31,8 @@ sonarcloud-check:
 production:
   image: ruby:latest
   stage: deploy
-  dependencies:
-    - compile-project
   script:
+    - npm run build
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
