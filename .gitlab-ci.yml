@@ -1,11 +1,5 @@
-image: node:lastest
-
 before_script:
   - npm install
-
-stages:
-  - test
-  - deploy
 
 variables:
   SONAR_USER_HOME: '${CI_PROJECT_DIR}/.sonar' # Defines the location of the analysis task cache
@@ -29,15 +23,3 @@ sonarcloud-check:
     - merge_requests
     - master
     - develop
-
-production:
-  image: ruby:latest
-  stage: deploy
-  script:
-    - npm run build
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
-  only:
-    - master
