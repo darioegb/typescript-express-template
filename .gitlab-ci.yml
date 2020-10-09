@@ -35,6 +35,8 @@ sonarcloud-check:
     - develop
 
 production:
+  variables:
+    GIT_CLEAN_FLAGS: -x -f -e src/environments/**
   before_script:
     - chmod +x ./setup_env.sh
     - ./setup_env.sh prod
@@ -43,7 +45,6 @@ production:
   services:
     - ruby
   script:
-    - sed -i '$ d' .gitignore
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
