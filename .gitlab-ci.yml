@@ -38,10 +38,10 @@ production:
   before_script:
     - chmod +x ./setup_env.sh
     - ./setup_env.sh prod
-  artifacts:
+  cache:
     untracked: true
     paths:
-      - src/environments/  
+      - src/environments/    
   stage: deploy
   environment: prod
   services:
