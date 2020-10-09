@@ -1,4 +1,5 @@
 #!/bin/bash
+mkdir src/environments
 echo NODE_ENV=$NODE_ENV >> "src/environments/${1}.env"
 echo MONGO_USER=$MONGO_USER >> "src/environments/${1}.env"
 echo MONGO_PASSWORD=$MONGO_PASSWORD >> "src/environments/${1}.env"
