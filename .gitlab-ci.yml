@@ -2,7 +2,6 @@ image: node:latest
 
 before_script:
   - npm install
-  - chmod +x ./setup_env.sh
 
 stages:
   - test
@@ -44,6 +43,7 @@ production:
   services:
     - ruby
   script:
+    - sed -i '$ d' .gitignore
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
