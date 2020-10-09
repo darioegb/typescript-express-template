@@ -34,12 +34,13 @@ sonarcloud-check:
     - develop
 
 production:
+  before_script:
+    - ./setup_env.sh prod
   stage: deploy
   environment: prod
   services:
     - ruby
   script:
-    - ./setup_env.sh prod
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
