@@ -22,6 +22,7 @@ sonarcloud-check:
       - node_modules/
       - .sonar/cache
   stage: test
+  environment: test
   script:
     - ./setup_env.sh test
     - npm run lint
@@ -34,6 +35,7 @@ sonarcloud-check:
 
 production:
   stage: deploy
+  environment: prod
   services:
     - ruby
   script:
