@@ -9,10 +9,7 @@ export class DBHandler {
    */
   public async connect() {
     const isTestEnv = process.env.NODE_ENV === 'test';
-    if (isTestEnv) {
-      process.env.MONGO_PATH = 'admin:REauxJJLZwdDix3@cluster0.ckn76.mongodb.net';
-      process.env.MONGO_DATABASE = 'testDB';
-    }
+    const isDevEnv = process.env.NODE_ENV === 'dev';
     const {
       MONGO_USER,
       MONGO_PASSWORD,
@@ -25,13 +22,13 @@ export class DBHandler {
       useCreateIndex: true,
       useFindAndModify: false,
     };
-    const url = isTestEnv
-      ? `mongodb+srv://${MONGO_PATH}/${MONGO_DATABASE}?authSource=admin`
-      : `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}/${MONGO_DATABASE}?authSource=admin`;
+    const url = `mongodb${
+      isDevEnv ? '' : '+srv'
+    }://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}/${MONGO_DATABASE}`;
     mongoose
       .connect(url, { ...options })
       .then(() =>
-        !isTestEnv ? console.log('DB: \x1b[32m%s\x1b[0m', 'online') : null
+        !isTestEnv ? console.log('DB: %s', 'online'.green) : null
       )
       .catch((error: any) => (!isTestEnv ? console.error(error) : null));
   }

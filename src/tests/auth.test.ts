@@ -23,7 +23,6 @@ describe('Testing Auth', () => {
   beforeAll(async () => {
     dbHandler = new DBHandler();
     authController = new AuthController();
-    process.env.JWT_SECRET = 'test';
     app = new App([authController]);
     await dbHandler.connect();
     db = dbHandler.db;

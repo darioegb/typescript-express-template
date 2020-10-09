@@ -2,6 +2,7 @@ image: node:latest
 
 before_script:
   - npm install
+  - chmod +x ./setup_env.sh
 
 stages:
   - test
@@ -22,6 +23,7 @@ sonarcloud-check:
       - .sonar/cache
   stage: test
   script:
+    - ./setup_env.sh test
     - npm run lint
     - npm run test
     - sonar-scanner
@@ -35,6 +37,7 @@ production:
   services:
     - ruby
   script:
+    - ./setup_env.sh prod
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl

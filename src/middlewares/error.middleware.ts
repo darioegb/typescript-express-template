@@ -11,7 +11,7 @@ export function errorMiddleware(
   const message: string = error.message || 'Something went wrong';
 
   if (process.env.NODE_ENV !== 'test') {
-    console.error('[ERROR] ', status, message);
+    console.error('[ERROR] %s', `${status} \/n ${message}`.red);
   }
 
   res.status(status).json({ message });

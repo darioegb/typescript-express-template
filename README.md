@@ -22,6 +22,21 @@ This repository is a NodeJS Express rest api template with jwt authentication, u
 npm install
 ```
 
+### Enviroment file
+
+Create your .env files similar next example for each enviroment that you need. For example it project work with 3 test, dev and prod.
+```terminal
+<!-- .env.dev -->
+MONGO_USER=dbAdmin
+MONGO_PASSWORD=password
+MONGO_PATH=@localhost:27017
+MONGO_DATABASE=mongoose
+JWT_SECRET=jwt_secret
+PORT=3000
+NODE_ENV=dev
+```
+
+
 ## Running
 
 ```bash

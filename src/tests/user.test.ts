@@ -28,7 +28,6 @@ describe('Testing Users', () => {
   beforeAll(async () => {
     dbHandler = new DBHandler();
     userController = new UserController();
-    process.env.JWT_SECRET = 'test';
     app = new App([userController]);
     await dbHandler.connect();
     db = dbHandler.db;

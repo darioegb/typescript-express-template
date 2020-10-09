@@ -402,7 +402,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/users?page=1&size=3&sort=lastName,desc&filter=firstName lastName email role",
+							"raw": "{{url}}/users",
 							"host": [
 								"{{url}}"
 							],
@@ -412,19 +412,23 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "1"
+									"value": "1",
+									"disabled": true
 								},
 								{
 									"key": "size",
-									"value": "3"
+									"value": "3",
+									"disabled": true
 								},
 								{
 									"key": "sort",
-									"value": "lastName,desc"
+									"value": "lastName,desc",
+									"disabled": true
 								},
 								{
 									"key": "filter",
-									"value": "firstName lastName email role"
+									"value": "firstName lastName email role",
+									"disabled": true
 								}
 							]
 						},
@@ -922,6 +926,9 @@
 				"id": "69e7078d-8a20-40b2-8d27-56aef242b9c2",
 				"type": "text/javascript",
 				"exec": [
+					"const environmentHasUrlVariable = pm.environment.has('url');",
+					"const urlValue = environmentHasUrlVariable ? pm.environment.get('url') : pm.collectionVariables.get('defaultUrl');",
+					"pm.collectionVariables.set('url', urlValue);",
 					""
 				]
 			}
@@ -939,19 +946,24 @@
 	],
 	"variable": [
 		{
-			"id": "ea2b6aca-b10f-4789-9758-76eaf16d4f0d",
+			"id": "51df4bcf-7f95-49e1-9dc7-7662f3412767",
 			"key": "userIdParamDescription",
 			"value": "User id"
 		},
 		{
-			"id": "f22da2bb-be59-4a08-8415-d852c73385f7",
+			"id": "50477f8e-f738-456f-8ce7-0f8eb4a374c7",
 			"key": "url",
-			"value": "localhost:3000"
+			"value": ""
 		},
 		{
-			"id": "66f4cf1b-08cd-4d5d-86d6-f80b866f3975",
+			"id": "8b93f995-3658-461b-804c-5fe6fb664a80",
 			"key": "token",
 			"value": ""
+		},
+		{
+			"id": "da0bc5de-730b-4860-9f1c-13a1b89117b0",
+			"key": "defaultUrl",
+			"value": "localhost:3000"
 		}
 	],
 	"protocolProfileBehavior": {}
