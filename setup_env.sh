@@ -1,9 +1,10 @@
 #!/bin/bash
-mkdir src/environments
-echo NODE_ENV=$NODE_ENV >> "src/environments/${1}.env"
-echo MONGO_USER=$MONGO_USER >> "src/environments/${1}.env"
-echo MONGO_PASSWORD=$MONGO_PASSWORD >> "src/environments/${1}.env"
-echo MONGO_PATH=$MONGO_PATH >> "src/environments/${1}.env"
-echo MONGO_DATABASE=$MONGO_DATABASE >> "src/environments/${1}.env"
-echo JWT_SECRET=$JWT_SECRET >> "src/environments/${1}.env"
-echo PORT=$PORT >> "src/environments/${1}.env"
+[[ $1 = 'test' ]] && fileName=".env.${1}" || fileName=".env"
+true > "${fileName}"
+echo NODE_ENV=$NODE_ENV >> "${fileName}"
+echo MONGO_USER=$MONGO_USER >> "${fileName}"
+echo MONGO_PASSWORD=$MONGO_PASSWORD >> "${fileName}"
+echo MONGO_PATH=$MONGO_PATH >> "${fileName}"
+echo MONGO_DATABASE=$MONGO_DATABASE >> "${fileName}"
+echo JWT_SECRET=$JWT_SECRET >> "${fileName}"
+echo PORT=$PORT >> "${fileName}"

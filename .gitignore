@@ -31,4 +31,4 @@ coverage
 .scannerwork
 
 #environment
-src/environments
+.env.*
