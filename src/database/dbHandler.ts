@@ -8,7 +8,6 @@ export class DBHandler {
    * Connect to database.
    */
   public async connect() {
-    const isDevEnv = process.env.NODE_ENV === 'dev';
     const {
       MONGO_USER,
       MONGO_PASSWORD,
@@ -22,12 +21,11 @@ export class DBHandler {
       useFindAndModify: false,
     };
     const url = `mongodb${
-      isDevEnv ? '' : '+srv'
+      process.env.NODE_ENV === 'dev' ? '' : '+srv'
     }://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}/${MONGO_DATABASE}`;
     mongoose
       .connect(url, { ...options })
       .then(() => console.log('DB: %s', 'online'.green))
-      .catch((error: any) => console.error(error));
   }
 
   /**
