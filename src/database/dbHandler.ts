@@ -9,6 +9,7 @@ export class DBHandler {
    */
   public async connect() {
     const {
+      MONGO_PREFIX,
       MONGO_USER,
       MONGO_PASSWORD,
       MONGO_PATH,
@@ -20,9 +21,7 @@ export class DBHandler {
       useCreateIndex: true,
       useFindAndModify: false,
     };
-    const url = `mongodb${
-      process.env.NODE_ENV === 'dev' ? '' : '+srv'
-    }://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}/${MONGO_DATABASE}`;
+    const url = `${MONGO_PREFIX}://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}/${MONGO_DATABASE}`;
     mongoose
       .connect(url, { ...options })
       .then(() => console.log('DB: %s', 'online'.green))

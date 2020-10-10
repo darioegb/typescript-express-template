@@ -2,6 +2,7 @@
 [[ $1 = 'test' ]] && fileName=".env.${1}" || fileName=".env"
 true > "${fileName}"
 echo NODE_ENV=$NODE_ENV >> "${fileName}"
+echo MONGO_PREFIX=$MONGO_PREFIX >> "${fileName}"
 echo MONGO_USER=$MONGO_USER >> "${fileName}"
 echo MONGO_PASSWORD=$MONGO_PASSWORD >> "${fileName}"
 echo MONGO_PATH=$MONGO_PATH >> "${fileName}"
