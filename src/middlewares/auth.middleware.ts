@@ -26,7 +26,7 @@ export async function authMiddleware(
       }
       const verificationResponse = verify(token, secret) as DataStoredInToken;
       const _id = verificationResponse._id;
-      let findUser = await userModel.findById({ _id }).exec();
+      const findUser = await userModel.findById({ _id }).exec();
       if (findUser) {
         req.user = findUser;
         next();
