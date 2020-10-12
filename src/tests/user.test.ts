@@ -197,6 +197,32 @@ describe('Testing Users', () => {
         "You're user with id"
       );
     });
+    it('should return error while user isNotAdminOrSameUser', async () => {
+      const mockUser: any = {
+        email: 'test@test.com',
+        password: 'secret',
+        firstName: 'Test',
+        lastName: 'User',
+        role: Roles.User,
+      };
+      mockUser.password = await hash(mockUser.password, 10);
+      const authService = new AuthService();
+      await userCollection.insertOne(mockUser);
+      const token = authService.createToken(mockUser);
+      const editUser = await userController.userService.findEntityById(
+        loginUserId
+      );
+      editUser.firstName = 'Login Updated';
+      const { status, error } = await request(app.getServer())
+        .put(`${userController.path}/${loginUserId}`)
+        .set('Authorization', `Bearer ${token}`)
+        .send(editUser);
+
+      expect(status).toBe(403);
+      expect(error && error.text && JSON.parse(error.text).message).toContain(
+        'You have no privilege to do that'
+      );
+    });
     it('should update a user', async () => {
       const editUser = await userController.userService.findEntityById(
         loginUserId
@@ -222,6 +248,27 @@ describe('Testing Users', () => {
       expect(status).toBe(409);
       expect(error && error.text && JSON.parse(error.text).message).toMatch(
         "You're entity doesn't exist"
+      );
+    });
+    it('should return error while user isNotAdmin', async () => {
+      const mockUser: any = {
+        email: 'test@test.com',
+        password: 'secret',
+        firstName: 'Test',
+        lastName: 'User',
+        role: Roles.User,
+      };
+      mockUser.password = await hash(mockUser.password, 10);
+      const authService = new AuthService();
+      await userCollection.insertOne(mockUser);
+      const token = authService.createToken(mockUser);
+      const { status, error } = await request(app.getServer())
+        .delete(`${userController.path}/${loginUserId}`)
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(status).toBe(403);
+      expect(error && error.text && JSON.parse(error.text).message).toContain(
+        'You have no privilege to do that'
       );
     });
     it('should delete a user', async () => {

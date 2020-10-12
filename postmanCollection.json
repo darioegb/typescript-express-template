@@ -896,12 +896,14 @@
 						"type": "text/javascript",
 						"exec": [
 							"const _id = pm.request.url.variables.indexOf('id');",
-							"if (_id !== -1 && pm.request.method !== 'DELETE') {",
+							"if (_id !== -1) {",
+							"    const value = pm.request.url.variables.get('id');",
 							"    const token = pm.variables.get('token');",
 							"    const parts = token.split('.'); // header, payload, signature",
 							"    const payload = JSON.parse(atob(parts[1]));",
-							"    pm.request.url.variables.idx(_id).value = payload._id;",
-							"}"
+							"    pm.request.url.variables.idx(_id).value = value.length > 0 ? value :  payload._id;",
+							"}",
+							""
 						]
 					}
 				},
@@ -946,22 +948,22 @@
 	],
 	"variable": [
 		{
-			"id": "51df4bcf-7f95-49e1-9dc7-7662f3412767",
+			"id": "5525a715-d51a-4bf7-a366-4f5debf57c5b",
 			"key": "userIdParamDescription",
 			"value": "User id"
 		},
 		{
-			"id": "50477f8e-f738-456f-8ce7-0f8eb4a374c7",
+			"id": "33df61f6-4c5a-43f8-8535-e914ddaf26bb",
 			"key": "url",
 			"value": ""
 		},
 		{
-			"id": "8b93f995-3658-461b-804c-5fe6fb664a80",
+			"id": "eadcf6a4-32d7-46ac-ba75-5c0dd6e17514",
 			"key": "token",
 			"value": ""
 		},
 		{
-			"id": "da0bc5de-730b-4860-9f1c-13a1b89117b0",
+			"id": "d243d703-df40-4257-b6be-3c0a23c3c6b2",
 			"key": "defaultUrl",
 			"value": "localhost:3000"
 		}

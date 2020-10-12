@@ -25,6 +25,7 @@ export class DBHandler {
     mongoose
       .connect(url, { ...options })
       .then(() => console.log('DB: %s', 'online'.green))
+      .catch((error) => console.log(error));
   }
 
   /**

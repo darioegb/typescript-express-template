@@ -1,5 +1,6 @@
 import { Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
+import { Roles } from '../enums';
 import { HttpException } from '../exceptions';
 import {
   DataStoredInToken,
@@ -25,7 +26,7 @@ export async function authMiddleware(
       }
       const verificationResponse = verify(token, secret) as DataStoredInToken;
       const _id = verificationResponse._id;
-      const findUser = await userModel.findById({ _id }).exec();
+      let findUser = await userModel.findById({ _id }).exec();
       if (findUser) {
         req.user = findUser;
         next();
@@ -37,5 +38,31 @@ export async function authMiddleware(
     }
   } else {
     next(new HttpException(404, 'Authentication token missing'));
+  }
+}
+
+export async function isAdminMiddleware(
+  req: RequestWithUser,
+  _res: Response,
+  next: NextFunction
+) {
+  if (req.user.role !== Roles.Admin) {
+    next(new HttpException(403, 'You have no privilege to do that'));
+  }
+  next();
+}
+
+export async function isAdminOrSameUserMiddleware(
+  req: RequestWithUser,
+  _res: Response,
+  next: NextFunction
+) {
+  const findUser = req.user;
+  const id = req.params.id;
+
+  if (findUser.role === Roles.Admin || findUser._id.toString()  === id) {
+    next();
+  } else {
+    next(new HttpException(403, 'You have no privilege to do that'));
   }
 }

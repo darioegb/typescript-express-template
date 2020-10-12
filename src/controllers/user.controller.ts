@@ -3,10 +3,14 @@ import { Request, Response, NextFunction } from 'express';
 import { UserService } from '../services';
 import { UserDto } from '../dtos';
 import { validationMiddleware } from '../middlewares/validation.middleware';
-import { User } from '../interfaces';
+import { RequestWithUser, User } from '../interfaces';
 import { autoMapper } from '../utils/util';
 import { Controller } from '../abstract';
-import { authMiddleware } from '../middlewares';
+import {
+  authMiddleware,
+  isAdminMiddleware,
+  isAdminOrSameUserMiddleware,
+} from '../middlewares';
 
 export class UserController extends Controller {
   public userService = new UserService();
@@ -27,10 +31,19 @@ export class UserController extends Controller {
     );
     this.router.put(
       `${this.path}/:id`,
-      [authMiddleware, validationMiddleware(UserDto, true)],
+      [
+        authMiddleware,
+        isAdminOrSameUserMiddleware,
+        validationMiddleware(UserDto, true),
+      ],
       this.updateUser
     );
-    this.router.delete(`${this.path}/:id`, authMiddleware, this.deleteUser);
+    this.router.delete(
+      `${this.path}/:id`,
+      authMiddleware,
+      isAdminMiddleware,
+      this.deleteUser
+    );
   }
 
   private getUsersByPage = async (
@@ -47,12 +60,12 @@ export class UserController extends Controller {
         sort,
         filter
       );
-      result.items = result.items.map(item => autoMapper(item, UserDto));
+      result.items = result.items.map((item) => autoMapper(item, UserDto));
       res.status(200).json({ data: result, message: 'findByPage' });
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   private getUserById = async (
     req: Request,
@@ -71,7 +84,7 @@ export class UserController extends Controller {
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   private createUser = async (
     req: Request,
@@ -84,7 +97,7 @@ export class UserController extends Controller {
       const user = await this.userService.createUser(userData);
       let createdUser: UserDto | UserDto[];
       if (user instanceof Array) {
-        createdUser = user.map(item => autoMapper(item, UserDto));
+        createdUser = user.map((item) => autoMapper(item, UserDto));
       } else {
         createdUser = autoMapper(user, UserDto);
       }
@@ -92,10 +105,10 @@ export class UserController extends Controller {
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   private updateUser = async (
-    req: Request,
+    req: RequestWithUser,
     res: Response,
     next: NextFunction
   ) => {
@@ -111,10 +124,10 @@ export class UserController extends Controller {
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   private deleteUser = async (
-    req: Request,
+    req: RequestWithUser,
     res: Response,
     next: NextFunction
   ) => {
@@ -126,5 +139,5 @@ export class UserController extends Controller {
     } catch (error) {
       next(error);
     }
-  }
+  };
 }
