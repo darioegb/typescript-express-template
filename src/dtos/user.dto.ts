@@ -6,6 +6,7 @@ export class UserDto {
     _id?: string,
     firstName?: string,
     lastName?: string,
+    fullName?: string,
     email?: string,
     password?: string,
     role?: Roles
@@ -13,12 +14,14 @@ export class UserDto {
     this._id = _id;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.fullName = fullName;
     this.email = email;
     this.password = password;
     this.role = role;
   }
 
   readonly _id!: string;
+  readonly fullName: string;
 
   @IsString()
   @Length(3, 30)
@@ -29,6 +32,7 @@ export class UserDto {
   @Length(3, 30)
   @IsNotEmpty()
   public lastName: string;
+
 
   @IsEmail()
   @IsNotEmpty()

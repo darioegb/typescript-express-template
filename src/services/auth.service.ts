@@ -13,18 +13,16 @@ export class AuthService {
     userData: UserDto
   ): Promise<{ token: string; findUser: User }> {
     validateObjectData(userData, 'UserData');
-    const findUser: User | null = await this.model
-      .findOne({ email: userData.email })
-      .exec();
+    const findUser = await this.model.findOne({ email: userData.email }).exec();
     if (!findUser) {
       throw new HttpException(409, `You're email ${userData.email} not found`);
     }
     const isPasswordMatching: boolean = await compare(
       userData.password,
-      findUser.password
+      findUser.get('password', null, { getters: false })
     );
     if (!isPasswordMatching) {
-      throw new HttpException(409, 'You\'re password not matching');
+      throw new HttpException(409, "You're password not matching");
     }
     const token = this.createToken(findUser);
 
