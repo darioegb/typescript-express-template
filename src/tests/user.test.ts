@@ -1,11 +1,10 @@
 import request from 'supertest';
-import App from '../app';
-import { UserController } from '../controllers';
-import { AuthService } from '../services';
-import { DBHandler } from '../database/dbHandler';
-import { Page } from '../interfaces';
-import { UserDto } from '../dtos';
-import { Roles } from '../enums';
+import { App, DBHandler } from '@/config';
+import { UserController } from '@/controllers';
+import { AuthService } from '@/services';
+import { Page } from '@/data/interfaces';
+import { UserDto } from '@/data/dtos';
+import { Roles } from '@/data/enums';
 import { Collection, Connection, Types } from 'mongoose';
 import { hash } from 'bcryptjs';
 
@@ -29,7 +28,6 @@ describe('Testing Users', () => {
     dbHandler = new DBHandler();
     userController = new UserController();
     app = new App([userController]);
-    await dbHandler.connect();
     db = dbHandler.db;
     userCollection = db.collection('users');
     const authService = new AuthService();
@@ -208,14 +206,14 @@ describe('Testing Users', () => {
       mockUser.password = await hash(mockUser.password, 10);
       const authService = new AuthService();
       await userCollection.insertOne(mockUser);
-      const token = authService.createToken(mockUser);
+      const auxToken = authService.createToken(mockUser);
       const editUser = await userController.userService.findEntityById(
         loginUserId
       );
       editUser.firstName = 'Login Updated';
       const { status, error } = await request(app.getServer())
         .put(`${userController.path}/${loginUserId}`)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${auxToken}`)
         .send(editUser);
 
       expect(status).toBe(403);
@@ -261,10 +259,10 @@ describe('Testing Users', () => {
       mockUser.password = await hash(mockUser.password, 10);
       const authService = new AuthService();
       await userCollection.insertOne(mockUser);
-      const token = authService.createToken(mockUser);
+      const auxToken = authService.createToken(mockUser);
       const { status, error } = await request(app.getServer())
         .delete(`${userController.path}/${loginUserId}`)
-        .set('Authorization', `Bearer ${token}`);
+        .set('Authorization', `Bearer ${auxToken}`);
 
       expect(status).toBe(403);
       expect(error && error.text && JSON.parse(error.text).message).toContain(

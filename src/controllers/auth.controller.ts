@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { Controller } from '../abstract';
-import { UserDto, LogInDto } from '../dtos';
-import { RequestWithUser } from '../interfaces';
-import { authMiddleware, validationMiddleware } from '../middlewares';
-import { AuthService, UserService } from '../services';
-import { autoMapper } from '../utils/util';
+import { UserDto, LogInDto } from '@/data/dtos';
+import { RequestWithUser } from '@/data/interfaces';
+import { authMiddleware, validationMiddleware } from '@/middlewares';
+import { AuthService, UserService } from '@/services';
+import { autoMapper } from '@/utils';
+import Controller  from './controller.abstract';
 
 export class AuthController extends Controller {
   public authService = new AuthService();

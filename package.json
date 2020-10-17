@@ -4,7 +4,7 @@
     "main": "index.js",
     "scripts": {
         "start": "cross-env NODE_ENV=prod ts-node --transpile-only src/server.ts",
-        "dev": "cross-env NODE_ENV=dev nodemon --inspect=5858 --ext ts --exec node -r ts-node/register ./src/server.ts",
+        "dev": "cross-env NODE_ENV=dev nodemon --inspect=5858 --ext ts --exec node -r tsconfig-paths/register -r ts-node/register ./src/server.ts",
         "test": "cross-env NODE_ENV=test jest --coverage --forceExit --detectOpenHandles",
         "lint": "tslint -p tsconfig.json -c tslint.json"
     },
@@ -20,6 +20,7 @@
         "express": "^4.17.1",
         "jest": "^26.4.2",
         "jsonwebtoken": "^8.5.1",
+        "module-alias": "^2.2.2",
         "mongoose": "^5.9.18",
         "mongoose-unique-validator": "^2.0.3",
         "ts-jest": "^26.4.0",
@@ -37,22 +38,29 @@
         "@types/supertest": "^2.0.10",
         "nodemon": "^1.12.1",
         "supertest": "^4.0.2",
+        "tsconfig-paths": "^3.9.0",
         "tslint": "^6.1.3"
     },
     "jest": {
         "setupFilesAfterEnv": [
             "./jest.setup.ts"
         ],
+        "moduleNameMapper": {
+            "@/(.*)": "<rootDir>/src/$1"
+        },
         "testTimeout": 60000,
         "preset": "ts-jest",
         "testEnvironment": "node",
         "coverageThreshold": {
             "global": {
-                "branches": 70,
+                "branches": 80,
                 "functions": 80,
                 "lines": 80,
                 "statements": 80
             }
         }
+    },
+    "_moduleAliases": {
+        "@": "src"
     }
 }

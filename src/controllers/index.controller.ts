@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Controller } from '../abstract';
+import Controller from './controller.abstract';
 
 export class IndexController extends Controller {
   constructor() {

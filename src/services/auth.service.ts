@@ -1,10 +1,10 @@
 import { sign } from 'jsonwebtoken';
 import { compare } from 'bcryptjs';
-import { UserDto } from '../dtos';
-import { HttpException } from '../exceptions';
-import { User, DataStoredInToken } from '../interfaces';
-import { userModel } from '../models';
-import { validateObjectData } from '../utils/util';
+import { UserDto } from '@/data/dtos';
+import { HttpException } from '@/exceptions';
+import { User, DataStoredInToken } from '@/data/interfaces';
+import { userModel } from '@/data/models';
+import { validateObjectData } from '@/utils';
 
 export class AuthService {
   public model = userModel;

@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { UserService } from '../services';
-import { UserDto } from '../dtos';
-import { validationMiddleware } from '../middlewares/validation.middleware';
-import { RequestWithUser, User } from '../interfaces';
-import { autoMapper } from '../utils/util';
-import { Controller } from '../abstract';
+import { UserService } from '@/services';
+import { UserDto } from '@/data/dtos';
+import { validationMiddleware } from '@/middlewares';
+import { RequestWithUser, User } from '@/data/interfaces';
+import { autoMapper } from '@/utils';
 import {
   authMiddleware,
   isAdminMiddleware,
   isAdminOrSameUserMiddleware,
-} from '../middlewares';
+} from '@/middlewares';
+import Controller from './controller.abstract';
 
 export class UserController extends Controller {
   public userService = new UserService();

@@ -1,10 +1,10 @@
-import { userModel } from '../models';
+import { userModel } from '@/data/models';
 import { hash } from 'bcryptjs';
-import { UserDto } from '../dtos';
-import { validateObjectData } from '../utils/util';
-import { HttpException } from '../exceptions';
-import { User } from '../interfaces';
-import { BaseCrudService } from '../abstract';
+import { UserDto } from '@/data/dtos';
+import { validateObjectData } from '@/utils';
+import { HttpException } from '@/exceptions';
+import { User } from '@/data/interfaces';
+import BaseCrudService  from './baseCrudService.abstract';
 
 export class UserService extends BaseCrudService<UserDto, User> {
   constructor() {

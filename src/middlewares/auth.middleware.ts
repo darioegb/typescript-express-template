@@ -1,12 +1,12 @@
 import { Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
-import { Roles } from '../enums';
-import { HttpException } from '../exceptions';
+import { Roles } from '@/data/enums';
+import { HttpException } from '@/exceptions';
 import {
   DataStoredInToken,
   RequestWithUser,
-} from '../interfaces/auth.interface';
-import { userModel } from '../models';
+} from '@/data/interfaces';
+import { userModel } from '@/data/models';
 
 export async function authMiddleware(
   req: RequestWithUser,

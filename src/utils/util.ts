@@ -1,5 +1,5 @@
 import { Constructable } from './types';
-import { HttpException } from '../exceptions';
+import { HttpException } from '@/exceptions';
 
 export function isEmptyObject(obj: object): boolean {
   return !Object.keys(obj).length;

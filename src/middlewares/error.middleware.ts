@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { HttpException } from '../exceptions';
+import { HttpException } from '@/exceptions';
 
 export function errorMiddleware(
   error: HttpException,
@@ -10,7 +10,9 @@ export function errorMiddleware(
   const status: number = error.status || 500;
   const message: string = error.message || 'Something went wrong';
 
-  console.error('[ERROR] %s', `${status} \/n ${message}`.red);
+  if (process.env.NODE_ENV !== 'test') {
+    console.error('[ERROR] %s', `${status} \/n ${message}`.red);
+  }
 
   res.status(status).json({ message });
 }

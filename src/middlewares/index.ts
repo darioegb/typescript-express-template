@@ -1,7 +1,3 @@
-export {
-  authMiddleware,
-  isAdminMiddleware,
-  isAdminOrSameUserMiddleware,
-} from './auth.middleware';
-export { errorMiddleware } from './error.middleware';
-export { validationMiddleware } from './validation.middleware';
+export * from './auth.middleware';
+export * from './error.middleware';
+export * from './validation.middleware';

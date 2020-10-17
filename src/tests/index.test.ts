@@ -1,6 +1,6 @@
 import request from 'supertest';
-import App from '../app';
-import { IndexController } from '../controllers';
+import { App } from '@/config/index';
+import { IndexController } from '@/controllers';
 
 describe('Testing Index', () => {
   

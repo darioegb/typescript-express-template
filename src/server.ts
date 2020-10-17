@@ -1,8 +1,9 @@
+import 'module-alias/register';
 import 'dotenv/config';
 import 'colors';
-import App from './app';
-import validateEnv from './utils/validateEnv';
-import { IndexController, AuthController, UserController } from './controllers';
+import { App }  from '@/config';
+import { validateEnv } from '@/utils';
+import { IndexController, AuthController, UserController } from '@/controllers';
 
 validateEnv();
 

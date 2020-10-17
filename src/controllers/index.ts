@@ -1,3 +1,4 @@
-export { IndexController } from './index.controller';
-export { AuthController } from './auth.controller';
-export { UserController } from './user.controller';
+export { default as Controller } from './controller.abstract';
+export * from './index.controller';
+export * from './auth.controller';
+export * from './user.controller';
