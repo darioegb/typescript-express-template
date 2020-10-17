@@ -1,5 +1,6 @@
 # Typescript Express template
 
+[![pipeline status](https://gitlab.com/darioegb/typescript-express-template/badges/master/pipeline.svg)](https://gitlab.com/darioegb/typescript-express-template/-/commits/master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=alert_status)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=bugs)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=code_smells)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
