@@ -42,6 +42,7 @@ staging:
     - ./setup_env.sh
   stage: deploy
   environment: stage
+  image: ruby:latest
   script:
     - apt-get update -qy
     - apt-get install -y ruby-dev
