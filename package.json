@@ -1,6 +1,6 @@
 {
     "name": "typescript-express-template",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "main": "index.js",
     "scripts": {
         "start": "cross-env NODE_ENV=prod ts-node --transpile-only src/server.ts",
