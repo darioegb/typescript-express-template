@@ -42,8 +42,6 @@ staging:
     - ./setup_env.sh
   stage: deploy
   environment: stage
-  services:
-    - ruby
   script:
     - apt-get update -qy
     - apt-get install -y ruby-dev
@@ -60,8 +58,6 @@ production:
     - ./setup_env.sh
   stage: deploy
   environment: prod
-  services:
-    - ruby
   script:
     - apt-get update -qy
     - apt-get install -y ruby-dev
