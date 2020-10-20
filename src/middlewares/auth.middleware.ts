@@ -2,10 +2,7 @@ import { Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 import { Roles } from '@/data/enums';
 import { HttpException } from '@/exceptions';
-import {
-  DataStoredInToken,
-  RequestWithUser,
-} from '@/data/interfaces';
+import { DataStoredInToken, RequestWithUser } from '@/data/interfaces';
 import { userModel } from '@/data/models';
 
 export async function authMiddleware(
@@ -21,7 +18,6 @@ export async function authMiddleware(
     try {
       let token = headers.authorization;
       if (token.startsWith('Bearer ')) {
-        // Remove Bearer from string
         token = token.slice(7, token.length);
       }
       const verificationResponse = <DataStoredInToken>verify(token, secret);
@@ -60,7 +56,7 @@ export async function isAdminOrSameUserMiddleware(
   const findUser = req.user;
   const id = req.params.id;
 
-  if (findUser.role === Roles.Admin || findUser._id.toString()  === id) {
+  if (findUser.role === Roles.Admin || findUser._id.toString() === id) {
     next();
   } else {
     next(new HttpException(403, 'You have no privilege to do that'));
