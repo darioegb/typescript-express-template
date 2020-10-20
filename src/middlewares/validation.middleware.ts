@@ -3,12 +3,12 @@ import { validate, ValidationError } from 'class-validator';
 import { RequestHandler } from 'express';
 import { HttpException } from '@/exceptions';
 
-export function validationMiddleware(
-  type: any,
+export function validationMiddleware<T>(
+  type: T,
   skipMissingProperties = false
 ): RequestHandler {
   return (req, _res, next) => {
-    validate(plainToClass(type, req.body), { skipMissingProperties }).then(
+    validate(plainToClass(<never>type, req.body), { skipMissingProperties }).then(
       (errors: ValidationError[]) => {
         if (errors.length > 0) {
           const message = generateMessageFromErrors(errors);
@@ -22,7 +22,8 @@ export function validationMiddleware(
 
   function generateMessageFromErrors(errors: ValidationError[]) {
     return errors
-      .map((error: ValidationError) => Object.values(error.constraints ? error.constraints : [])
+      .map((error: ValidationError) =>
+        Object.values(error.constraints ? error.constraints : [])
       )
       .join(', ');
   }

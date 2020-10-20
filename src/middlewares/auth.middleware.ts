@@ -24,7 +24,7 @@ export async function authMiddleware(
         // Remove Bearer from string
         token = token.slice(7, token.length);
       }
-      const verificationResponse = verify(token, secret) as DataStoredInToken;
+      const verificationResponse = <DataStoredInToken>verify(token, secret);
       const _id = verificationResponse._id;
       const findUser = await userModel.findById({ _id }).exec();
       if (findUser) {

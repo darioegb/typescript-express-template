@@ -4,7 +4,7 @@ import { UserDto } from '@/data/dtos';
 import { validateObjectData } from '@/utils';
 import { HttpException } from '@/exceptions';
 import { User } from '@/data/interfaces';
-import BaseCrudService  from './baseCrudService.abstract';
+import BaseCrudService from './baseCrudService.abstract';
 
 export class UserService extends BaseCrudService<UserDto, User> {
   constructor() {
@@ -19,13 +19,15 @@ export class UserService extends BaseCrudService<UserDto, User> {
     try {
       return await this.findEntityById(userId, filter);
     } catch (error) {
-      throw new HttpException(409, 'You\'re not user');
+      throw new HttpException(409, "You're not user");
     }
   }
 
-  public async createUser(userData: UserDto | UserDto[]): Promise<User | User[]> {
+  public async createUser(
+    userData: UserDto | UserDto[]
+  ): Promise<User | User[]> {
     validateObjectData(userData, 'UserData');
-    if (userData instanceof  Array) {
+    if (userData instanceof Array) {
       userData.forEach(async (item) => {
         await this.checkUserExist(item);
         await this.hashUserPassword(item);
@@ -43,7 +45,7 @@ export class UserService extends BaseCrudService<UserDto, User> {
     if (!userExist) {
       throw new HttpException(
         404,
-        `You're user with id ${userId} doesn\'t exists`
+        `You're user with id ${userId} doesn\\'t exists`
       );
     }
     if (userData.password) {
@@ -52,7 +54,7 @@ export class UserService extends BaseCrudService<UserDto, User> {
     try {
       return await this.update(userId, userData);
     } catch (error) {
-      throw new HttpException(409, 'You\'re not user');
+      throw new HttpException(409, "You're not user");
     }
   }
 
@@ -71,5 +73,4 @@ export class UserService extends BaseCrudService<UserDto, User> {
   private async hashUserPassword(userData: UserDto) {
     userData.password = await hash(userData.password, 10);
   }
-
 }

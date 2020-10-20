@@ -4,7 +4,7 @@ import { HttpException } from '@/exceptions';
 import { splitByParamOrUndefined } from '@/utils/util';
 
 export default abstract class BaseCrudService<S, D> {
-  public model!: Model<D & Document, {}>;
+  public model!: Model<D & Document, unknown>;
 
   /**
    * Get entity by id
@@ -35,7 +35,7 @@ export default abstract class BaseCrudService<S, D> {
     filter = ''
   ): Promise<Page<D>> {
     const splitSort: string[] | undefined = splitByParamOrUndefined(sort);
-    const sortObject: any = this.getSortObject(splitSort);
+    const sortObject: unknown = this.getSortObject(splitSort);
     const entities: D[] = await this.model
       .find()
       .select(filter)
@@ -62,7 +62,7 @@ export default abstract class BaseCrudService<S, D> {
    */
   public async create(entityData: S | S[]): Promise<D | D[]> {
     try {
-      const createdEntity = await this.model.create(entityData as any);
+      const createdEntity = await this.model.create(<never>entityData);
       return createdEntity;
     } catch (error) {
       throw new HttpException(400, error.message);
@@ -100,7 +100,7 @@ export default abstract class BaseCrudService<S, D> {
     return deleteEntityById;
   }
 
-  private getSortObject(splitSort: string[]): any {
+  private getSortObject(splitSort: string[]): unknown {
     return splitSort ? { [splitSort[0]]: splitSort[1] } : { _id: 'asc' };
   }
 }

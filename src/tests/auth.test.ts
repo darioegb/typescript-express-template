@@ -4,6 +4,7 @@ import { App, DBHandler } from '@/config';
 import { AuthController } from '@/controllers';
 import { Roles } from '@/data/enums';
 import { hashSync } from 'bcryptjs';
+import { User } from '@/data/interfaces';
 
 describe('Testing Auth', () => {
   let app: App;
@@ -11,11 +12,14 @@ describe('Testing Auth', () => {
   let db: Connection;
   let userCollection: Collection;
   let authController: AuthController;
-  const userData: any = {
+  
+  const userData: User = {
+    _id: undefined,
     email: 'userdata@test.com',
     password: 'secret',
     firstName: 'User',
     lastName: 'Data',
+    fullName: 'Login User',
     role: Roles.User,
   };
 
@@ -101,7 +105,7 @@ describe('Testing Auth', () => {
       expect(status).toBe(401);
       expect(error && error.text).toMatch('Wrong authentication token');
     });
-    it('response should return error when not set authorization header is incorrect', async () => {
+    it('response should return error when not set authorization header', async () => {
       const { status, error } = await request(app.getServer()).get(
         `${authController.path}/renew`
       );

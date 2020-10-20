@@ -2,7 +2,7 @@ import request from 'supertest';
 import { App, DBHandler } from '@/config';
 import { UserController } from '@/controllers';
 import { AuthService } from '@/services';
-import { Page } from '@/data/interfaces';
+import { Page, User } from '@/data/interfaces';
 import { UserDto } from '@/data/dtos';
 import { Roles } from '@/data/enums';
 import { Collection, Connection, Types } from 'mongoose';
@@ -16,11 +16,13 @@ describe('Testing Users', () => {
   let userController: UserController;
   let token: string;
   let loginUserId: string;
-  const loginUser: any = {
+  const loginUser: User = {
+    _id: undefined,
     email: 'user@test.com',
     password: 'admin',
     firstName: 'Login',
     lastName: 'User',
+    fullName: 'Login User',
     role: Roles.Admin,
   };
 
@@ -196,11 +198,13 @@ describe('Testing Users', () => {
       );
     });
     it('should return error while user isNotAdminOrSameUser', async () => {
-      const mockUser: any = {
+      const mockUser: User = {
+        _id: undefined,
         email: 'test@test.com',
         password: 'secret',
         firstName: 'Test',
         lastName: 'User',
+        fullName: 'Test User',
         role: Roles.User,
       };
       mockUser.password = await hash(mockUser.password, 10);
@@ -249,11 +253,13 @@ describe('Testing Users', () => {
       );
     });
     it('should return error while user isNotAdmin', async () => {
-      const mockUser: any = {
+      const mockUser: User = {
+        _id: undefined,
         email: 'test@test.com',
         password: 'secret',
         firstName: 'Test',
         lastName: 'User',
+        fullName: 'Test User',
         role: Roles.User,
       };
       mockUser.password = await hash(mockUser.password, 10);

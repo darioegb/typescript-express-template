@@ -1,11 +1,11 @@
 import { Constructable } from './types';
 import { HttpException } from '@/exceptions';
 
-export function isEmptyObject(obj: object): boolean {
+export function isEmptyObject(obj: unknown): boolean {
   return !Object.keys(obj).length;
 }
 
-export function validateObjectData<T extends object>(
+export function validateObjectData<T extends unknown>(
   objectData: T,
   messageParam: string
 ) {
@@ -15,12 +15,12 @@ export function validateObjectData<T extends object>(
 }
 
 export function autoMapper<S, D>(source: S, destination: Constructable<D>): D {
-  const mapped: any = new destination();
+  const mapped: unknown = new destination();
   Object.keys(mapped).forEach((key) => {
-    mapped[key] = source[key as keyof S];
+    mapped[key as keyof D] = source[key as keyof S];
   });
 
-  return mapped;
+  return <D>mapped;
 }
 
 export function splitByParamOrUndefined(
