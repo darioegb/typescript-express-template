@@ -15,6 +15,7 @@ sonarcloud-check:
   before_script:
     - chmod +x ./setup_env.sh
     - ./setup_env.sh test
+    - npm i eslint
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: ['']
