@@ -8,7 +8,7 @@ import { autoMapper } from '@/utils';
 import {
   authMiddleware,
   isAdminMiddleware,
-  isAdminOrSameUserMiddleware,
+  isAdminOrSameUserMiddleware
 } from '@/middlewares';
 import Controller from './controller.abstract';
 
