@@ -66,5 +66,10 @@
     },
     "_moduleAliases": {
         "@": "src"
+    },
+    "husky": {
+        "hooks": {
+            "pre-push": "npm run pre-push"
+        }
     }
 }
