@@ -2,13 +2,7 @@
 
 [![pipeline status](https://gitlab.com/darioegb/typescript-express-template/badges/master/pipeline.svg)](https://gitlab.com/darioegb/typescript-express-template/-/commits/master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=alert_status)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=bugs)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=code_smells)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=coverage)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=sqale_index)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=ncloc)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=darioegb_typescript-express-template&metric=security_rating)](https://sonarcloud.io/dashboard?id=darioegb_typescript-express-template)

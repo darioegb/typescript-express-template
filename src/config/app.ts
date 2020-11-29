@@ -7,12 +7,10 @@ import { Controller } from '@/controllers';
 export default class App {
   public app: express.Application;
   public port: string | number;
-  public env: boolean;
 
   constructor(controllers: Controller[]) {
     this.app = express();
     this.port = process.env.PORT || 3000;
-    this.env = process.env.NODE_ENV === 'prod' ? true : false;
 
     this.connectToTheDatabase();
     this.initializeMiddlewares();
@@ -46,7 +44,12 @@ export default class App {
   }
 
   private async connectToTheDatabase() {
-    const dbHandler = new DBHandler();
-    await dbHandler.connect();
+    try {
+      const dbHandler = new DBHandler();
+      await dbHandler.connect();
+      console.log('mongoose on');
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
