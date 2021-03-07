@@ -32,7 +32,7 @@ export class AuthService {
   public createToken(user: User): string {
     const dataStoredInToken: DataStoredInToken = { _id: user._id };
     const secret: string = process.env.JWT_SECRET;
-    const expiresIn: number = 60 * 60;
+    const expiresIn = '1h';
 
     return sign(dataStoredInToken, secret, { expiresIn });
   }

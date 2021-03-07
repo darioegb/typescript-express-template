@@ -22,11 +22,11 @@ export class UserController extends Controller {
   }
 
   protected initializeRoutes(): void {
-    this.router.get(`${this.path}`, authMiddleware, this.getUsersByPage);
+    this.router.get(this.path, authMiddleware, this.getUsersByPage);
     this.router.get(`${this.path}/:id`, authMiddleware, this.getUserById);
     this.router.post(
-      `${this.path}`,
-      [authMiddleware, validationMiddleware(UserDto)],
+      this.path,
+      [authMiddleware, isAdminMiddleware, validationMiddleware(UserDto)],
       this.createUser
     );
     this.router.put(
@@ -40,8 +40,7 @@ export class UserController extends Controller {
     );
     this.router.delete(
       `${this.path}/:id`,
-      authMiddleware,
-      isAdminMiddleware,
+      [authMiddleware, isAdminMiddleware],
       this.deleteUser
     );
   }

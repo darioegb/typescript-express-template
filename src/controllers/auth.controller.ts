@@ -4,7 +4,7 @@ import { RequestWithUser } from '@/data/interfaces';
 import { authMiddleware, validationMiddleware } from '@/middlewares';
 import { AuthService, UserService } from '@/services';
 import { autoMapper } from '@/utils';
-import Controller  from './controller.abstract';
+import Controller from './controller.abstract';
 
 export class AuthController extends Controller {
   public authService = new AuthService();
@@ -24,7 +24,7 @@ export class AuthController extends Controller {
     );
     this.router.post(
       `${this.path}/login`,
-      validationMiddleware(LogInDto),
+      validationMiddleware(LogInDto, true),
       this.logIn
     );
     this.router.get(`${this.path}/renew`, authMiddleware, this.renewToken);
@@ -45,7 +45,7 @@ export class AuthController extends Controller {
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   private logIn = async (req: Request, res: Response, next: NextFunction) => {
     const userData: UserDto = req.body;
@@ -58,7 +58,7 @@ export class AuthController extends Controller {
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   private renewToken = async (
     req: RequestWithUser,
@@ -74,5 +74,5 @@ export class AuthController extends Controller {
     } catch (error) {
       next(error);
     }
-  }
+  };
 }
