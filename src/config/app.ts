@@ -3,10 +3,11 @@ import express from 'express';
 import { errorMiddleware } from '@/middlewares';
 import { DBHandler } from '@/config';
 import { Controller } from '@/controllers';
+import { stringOrNumber } from '@/utils';
 
 export default class App {
   public app: express.Application;
-  public port: string | number;
+  public port: stringOrNumber;
 
   constructor(controllers: Controller[]) {
     this.app = express();

@@ -1,7 +1,7 @@
 import { userModel } from '@/data/models';
 import { hash } from 'bcryptjs';
 import { UserDto } from '@/data/dtos';
-import { validateObjectData } from '@/utils';
+import { stringOrUndefined, userDtoOrUsersDto, userOrUsers, validateObjectData } from '@/utils';
 import { HttpException } from '@/exceptions';
 import { User } from '@/data/interfaces';
 import BaseCrudService from './baseCrudService.abstract';
@@ -14,7 +14,7 @@ export class UserService extends BaseCrudService<UserDto, User> {
 
   public async findUserById(
     userId: string,
-    filter?: string | undefined
+    filter?: stringOrUndefined
   ): Promise<User> {
     try {
       return await this.findEntityById(userId, filter);
@@ -24,8 +24,8 @@ export class UserService extends BaseCrudService<UserDto, User> {
   }
 
   public async createUser(
-    userData: UserDto | UserDto[]
-  ): Promise<User | User[]> {
+    userData: userDtoOrUsersDto
+  ): Promise<userOrUsers> {
     validateObjectData(userData, 'UserData');
     if (userData instanceof Array) {
       userData.forEach(async (item) => {
@@ -36,7 +36,7 @@ export class UserService extends BaseCrudService<UserDto, User> {
       await this.checkUserExist(userData);
       await this.hashUserPassword(userData);
     }
-    return await this.create(userData);
+    return this.create(userData);
   }
 
   public async updateUser(userId: string, userData: UserDto): Promise<User> {

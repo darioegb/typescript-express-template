@@ -1,3 +1,4 @@
+import { numberOrUndefined, stringOrUndefined } from '@/utils';
 import { Request, Router } from 'express';
 
 export default abstract class Controller {
@@ -12,16 +13,16 @@ export default abstract class Controller {
   protected abstract initializeRoutes(): void;
 
   protected getPagingAndSortParams(req: Request) {
-    const page: number | undefined = req.query.page
+    const page: numberOrUndefined = req.query.page
       ? +req.query.page
       : undefined;
-    const size: number | undefined = req.query.size
+    const size: numberOrUndefined = req.query.size
       ? +req.query.size
       : undefined;
-    const sort: string | undefined = req.query.sort
+    const sort: stringOrUndefined = req.query.sort
       ? req.query.sort.toString()
       : undefined;
-    const filter: string | undefined = req.query.filter
+    const filter: stringOrUndefined = req.query.filter
       ? req.query.filter.toString()
       : undefined;
     return { page, size, sort, filter };

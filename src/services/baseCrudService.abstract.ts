@@ -2,6 +2,7 @@ import { Model, Document } from 'mongoose';
 import { Page } from '@/data/interfaces';
 import { HttpException } from '@/exceptions';
 import { splitByParamOrUndefined } from '@/utils/util';
+import { stringsOrUndefined } from '@/utils';
 
 export default abstract class BaseCrudService<S, D> {
   public model!: Model<D & Document, unknown>;
@@ -11,7 +12,7 @@ export default abstract class BaseCrudService<S, D> {
    * @param id string
    */
   public async findEntityById(id: string, filter = ''): Promise<D> {
-    const findEntity: D | null = await this.model
+    const findEntity: D = await this.model
       .findById(id)
       .select(filter)
       .exec();
@@ -34,7 +35,7 @@ export default abstract class BaseCrudService<S, D> {
     sort = '',
     filter = ''
   ): Promise<Page<D>> {
-    const splitSort: string[] | undefined = splitByParamOrUndefined(sort);
+    const splitSort: stringsOrUndefined = splitByParamOrUndefined(sort);
     const sortObject: unknown = this.getSortObject(splitSort);
     const entities: D[] = await this.model
       .find()
@@ -46,14 +47,13 @@ export default abstract class BaseCrudService<S, D> {
     const totalItems = await this.model.countDocuments({}).exec();
     const totalPages = Math.ceil(totalItems / size);
     const number = page;
-    const result: Page<D> = {
+    return {
       number,
       size,
       totalItems,
       totalPages,
       items: entities,
     };
-    return result;
   }
 
   /**
@@ -62,8 +62,7 @@ export default abstract class BaseCrudService<S, D> {
    */
   public async create(entityData: S | S[]): Promise<D | D[]> {
     try {
-      const createdEntity = await this.model.create(<never>entityData);
-      return createdEntity;
+      return await this.model.create(<never>entityData);
     } catch (error) {
       throw new HttpException(400, error.message);
     }
@@ -75,7 +74,7 @@ export default abstract class BaseCrudService<S, D> {
    * @param entityData entityDTO
    */
   public async update(id: string, entityData: S): Promise<D> {
-    const updateEntityById: D | null = await this.model
+    const updateEntityById: D = await this.model
       .findByIdAndUpdate(id, { ...entityData }, { new: true })
       .exec();
     if (!updateEntityById) {
@@ -90,7 +89,7 @@ export default abstract class BaseCrudService<S, D> {
    * @param id string
    */
   public async delete(id: string): Promise<D> {
-    const deleteEntityById: D | null = await this.model
+    const deleteEntityById: D = await this.model
       .findByIdAndDelete(id)
       .exec();
     if (!deleteEntityById) {

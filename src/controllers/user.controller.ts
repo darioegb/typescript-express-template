@@ -2,10 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 
 import { UserService } from '@/services';
 import { UserDto } from '@/data/dtos';
-import { validationMiddleware } from '@/middlewares';
 import { RequestWithUser, User } from '@/data/interfaces';
-import { autoMapper } from '@/utils';
+import { autoMapper, userDtoOrUsersDto } from '@/utils';
 import {
+  validationMiddleware,
   authMiddleware,
   isAdminMiddleware,
   isAdminOrSameUserMiddleware
@@ -94,7 +94,7 @@ export class UserController extends Controller {
 
     try {
       const user = await this.userService.createUser(userData);
-      let createdUser: UserDto | UserDto[];
+      let createdUser: userDtoOrUsersDto;
       if (user instanceof Array) {
         createdUser = user.map((item) => autoMapper(item, UserDto));
       } else {

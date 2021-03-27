@@ -1,4 +1,4 @@
-import { Constructable } from './types';
+import { Constructable, stringsOrUndefined } from './types';
 import { HttpException } from '@/exceptions';
 
 export function isEmptyObject(obj: unknown): boolean {
@@ -26,6 +26,6 @@ export function autoMapper<S, D>(source: S, destination: Constructable<D>): D {
 export function splitByParamOrUndefined(
   source: string,
   param = ','
-): string[] | undefined {
+): stringsOrUndefined {
   return source.length > 1 ? source.split(param) : undefined;
 }
