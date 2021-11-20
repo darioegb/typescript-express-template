@@ -1,9 +1,5 @@
-import { UserDto } from '@/data/dtos';
-import { User } from '@/data/interfaces';
-
-export type Constructable<
-  T extends { [key in keyof T]: unknown } = unknown
-> = new (...args: unknown[]) => T;
+import { UserDto } from '@dtos';
+import { User } from '@interfaces';
 
 export type numberOrUndefined = number | undefined;
 export type stringOrUndefined = string | undefined;

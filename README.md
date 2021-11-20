@@ -19,8 +19,18 @@ npm install
 
 ### Enviroment file
 
-Update .env file with your values and also create .env.test for testing propouse
+Create .env file with your values and also create .env.test for testing propouse
 
+```bash
+MONGO_PREFIX=mongodb
+MONGO_USER=dbAdmin
+MONGO_PASSWORD=secret
+MONGO_PATH=@localhost:27017
+MONGO_DATABASE=api-nodejs
+JWT_SECRET=jwt_secret
+PORT=3000
+NODE_ENV=dev
+```
 
 ## Running
 

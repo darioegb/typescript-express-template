@@ -35,23 +35,6 @@ sonarcloud-check:
     - master
     - develop
 
-staging:
-  artifacts:
-    untracked: true
-  before_script:
-    - chmod +x ./setup_env.sh
-    - ./setup_env.sh
-  stage: deploy
-  environment: stage
-  image: ruby:latest
-  script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY --skip-cleanup
-  only:
-    - master
-
 production:
   artifacts:
     untracked: true

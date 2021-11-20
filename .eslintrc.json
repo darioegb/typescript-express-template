@@ -6,8 +6,10 @@
     "jest": true
   },
   "extends": [
+    "prettier",
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -19,15 +21,6 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "prefer-template": 0,
     "import-name": 0,
-    "no-console": 0,
-    "max-len": [2, { "code": 150, "tabWidth": 4, "ignoreUrls": true }],
-    "comma-dangle": [
-      2,
-      {
-        "objects": "always-multiline",
-        "arrays": "always-multiline",
-        "functions": "never"
-      }
-    ]
+    "no-console": 0
   }
 }

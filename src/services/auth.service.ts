@@ -1,26 +1,21 @@
 import { sign } from 'jsonwebtoken';
 import { compare } from 'bcryptjs';
-import { UserDto } from '@/data/dtos';
-import { HttpException } from '@/exceptions';
-import { User, DataStoredInToken } from '@/data/interfaces';
-import { userModel } from '@/data/models';
-import { validateObjectData } from '@/utils';
+import { UserDto } from '@dtos';
+import { HttpException } from '@exceptions';
+import { User, DataStoredInToken } from '@interfaces';
+import { userModel } from '@models';
+import { validateObjectData } from '@utils';
 
 export class AuthService {
   public model = userModel;
 
-  public async login(
-    userData: UserDto
-  ): Promise<{ token: string; findUser: User }> {
+  public async login(userData: UserDto): Promise<{ token: string; findUser: User }> {
     validateObjectData(userData, 'UserData');
     const findUser = await this.model.findOne({ email: userData.email }).exec();
     if (!findUser) {
       throw new HttpException(409, `You're email ${userData.email} not found`);
     }
-    const isPasswordMatching: boolean = await compare(
-      userData.password,
-      findUser.get('password', null, { getters: false })
-    );
+    const isPasswordMatching: boolean = await compare(userData.password, findUser.get('password', null, { getters: false }));
     if (!isPasswordMatching) {
       throw new HttpException(409, "You're password not matching");
     }

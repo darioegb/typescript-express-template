@@ -1,15 +1,11 @@
 import { Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
-import { Roles } from '@/data/enums';
-import { HttpException } from '@/exceptions';
-import { DataStoredInToken, RequestWithUser } from '@/data/interfaces';
-import { userModel } from '@/data/models';
+import { Roles } from '@enums';
+import { HttpException } from '@exceptions';
+import { DataStoredInToken, RequestWithUser } from '@interfaces';
+import { userModel } from '@models';
 
-export async function authMiddleware(
-  req: RequestWithUser,
-  _res: Response,
-  next: NextFunction
-) {
+export async function authMiddleware(req: RequestWithUser, _res: Response, next: NextFunction) {
   const headers = req.headers;
 
   if (headers && headers.authorization) {
@@ -37,22 +33,14 @@ export async function authMiddleware(
   }
 }
 
-export async function isAdminMiddleware(
-  req: RequestWithUser,
-  _res: Response,
-  next: NextFunction
-) {
+export async function isAdminMiddleware(req: RequestWithUser, _res: Response, next: NextFunction) {
   if (req.user.role !== Roles.Admin) {
     next(new HttpException(403, 'You have no privilege to do that'));
   }
   next();
 }
 
-export async function isAdminOrSameUserMiddleware(
-  req: RequestWithUser,
-  _res: Response,
-  next: NextFunction
-) {
+export async function isAdminOrSameUserMiddleware(req: RequestWithUser, _res: Response, next: NextFunction) {
   const findUser = req.user;
   const id = req.params.id;
 

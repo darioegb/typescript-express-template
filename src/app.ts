@@ -1,9 +1,9 @@
 // Requires
 import express from 'express';
-import { errorMiddleware } from '@/middlewares';
-import { DBHandler } from '@/config';
+import { errorMiddleware } from '@middlewares';
+import { DBHandler } from '@config';
 import { Controller } from '@/controllers';
-import { stringOrNumber } from '@/utils';
+import { stringOrNumber } from '@utils';
 
 export default class App {
   public app: express.Application;
@@ -50,7 +50,7 @@ export default class App {
       await dbHandler.connect();
       console.log('mongoose on');
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 }

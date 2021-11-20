@@ -8,13 +8,7 @@ export class DBHandler {
    * Connect to database.
    */
   public async connect() {
-    const {
-      MONGO_PREFIX,
-      MONGO_USER,
-      MONGO_PASSWORD,
-      MONGO_PATH,
-      MONGO_DATABASE,
-    } = process.env;
+    const { MONGO_PREFIX, MONGO_USER, MONGO_PASSWORD, MONGO_PATH, MONGO_DATABASE } = process.env;
     const options = {
       useNewUrlParser: true,
       useUnifiedTopology: true,

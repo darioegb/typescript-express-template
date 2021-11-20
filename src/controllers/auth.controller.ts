@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserDto, LogInDto } from '@/data/dtos';
-import { RequestWithUser } from '@/data/interfaces';
-import { authMiddleware, validationMiddleware } from '@/middlewares';
-import { AuthService, UserService } from '@/services';
-import { autoMapper } from '@/utils';
+import { UserDto, LogInDto } from '@dtos';
+import { RequestWithUser } from '@interfaces';
+import { authMiddleware, validationMiddleware } from '@middlewares';
+import { AuthService, UserService } from '@services';
 import Controller from './controller.abstract';
+import { User } from '../interfaces/user.interface';
 
 export class AuthController extends Controller {
   public authService = new AuthService();
@@ -17,16 +17,8 @@ export class AuthController extends Controller {
   }
 
   protected initializeRoutes(): void {
-    this.router.post(
-      `${this.path}/signup`,
-      validationMiddleware(UserDto),
-      this.signUp
-    );
-    this.router.post(
-      `${this.path}/login`,
-      validationMiddleware(LogInDto, true),
-      this.logIn
-    );
+    this.router.post(`${this.path}/signup`, validationMiddleware(UserDto), this.signUp);
+    this.router.post(`${this.path}/login`, validationMiddleware(LogInDto, true), this.logIn);
     this.router.get(`${this.path}/renew`, authMiddleware, this.renewToken);
   }
 
@@ -34,14 +26,9 @@ export class AuthController extends Controller {
     const userData: UserDto = req.body;
 
     try {
-      const signUpUser: UserDto = autoMapper(
-        await this.userService.createUser(userData),
-        UserDto
-      );
+      const signUpUser = (await this.userService.createUser(userData)) as User;
       const token = this.authService.createToken(signUpUser);
-      res
-        .status(201)
-        .json({ data: { token, user: signUpUser }, message: 'signup' });
+      res.status(201).json({ data: { token, user: signUpUser }, message: 'signup' });
     } catch (error) {
       next(error);
     }
@@ -52,25 +39,17 @@ export class AuthController extends Controller {
 
     try {
       const { token, findUser } = await this.authService.login(userData);
-      res
-        .status(200)
-        .json({ data: { token, user: findUser }, message: 'login' });
+      res.status(200).json({ data: { token, user: findUser }, message: 'login' });
     } catch (error) {
       next(error);
     }
   };
 
-  private renewToken = async (
-    req: RequestWithUser,
-    res: Response,
-    next: NextFunction
-  ) => {
+  private renewToken = async (req: RequestWithUser, res: Response, next: NextFunction) => {
     try {
-      const findUser: UserDto = autoMapper(req.user, UserDto);
+      const findUser = req.user;
       const token = this.authService.createToken(findUser);
-      res
-        .status(200)
-        .json({ data: { token, user: findUser }, message: 'renew' });
+      res.status(200).json({ data: { token, user: findUser }, message: 'renew' });
     } catch (error) {
       next(error);
     }

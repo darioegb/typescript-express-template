@@ -1,9 +1,9 @@
-import { userModel } from '@/data/models';
+import { userModel } from '@models';
 import { hash } from 'bcryptjs';
-import { UserDto } from '@/data/dtos';
-import { stringOrUndefined, userDtoOrUsersDto, userOrUsers, validateObjectData } from '@/utils';
-import { HttpException } from '@/exceptions';
-import { User } from '@/data/interfaces';
+import { UserDto } from '@dtos';
+import { stringOrUndefined, userDtoOrUsersDto, userOrUsers, validateObjectData } from '@utils';
+import { HttpException } from '@exceptions';
+import { User } from '@interfaces';
 import BaseCrudService from './baseCrudService.abstract';
 
 export class UserService extends BaseCrudService<UserDto, User> {
@@ -12,10 +12,7 @@ export class UserService extends BaseCrudService<UserDto, User> {
     this.model = userModel;
   }
 
-  public async findUserById(
-    userId: string,
-    filter?: stringOrUndefined
-  ): Promise<User> {
+  public async findUserById(userId: string, filter?: stringOrUndefined): Promise<User> {
     try {
       return await this.findEntityById(userId, filter);
     } catch (error) {
@@ -23,9 +20,7 @@ export class UserService extends BaseCrudService<UserDto, User> {
     }
   }
 
-  public async createUser(
-    userData: userDtoOrUsersDto
-  ): Promise<userOrUsers> {
+  public async createUser(userData: userDtoOrUsersDto): Promise<userOrUsers> {
     validateObjectData(userData, 'UserData');
     if (userData instanceof Array) {
       userData.forEach(async (item) => {
@@ -43,10 +38,7 @@ export class UserService extends BaseCrudService<UserDto, User> {
     validateObjectData(userData, 'UserData');
     const userExist: boolean = await this.model.exists({ _id: userId });
     if (!userExist) {
-      throw new HttpException(
-        404,
-        `You're user with id ${userId} doesn\\'t exists`
-      );
+      throw new HttpException(404, `You're user with id ${userId} doesn\\'t exists`);
     }
     if (userData.password) {
       userData.password = await hash(userData.password, 10);
@@ -63,10 +55,7 @@ export class UserService extends BaseCrudService<UserDto, User> {
       email: userData.email,
     });
     if (emailExist) {
-      throw new HttpException(
-        409,
-        `You're email ${userData.email} already exists`
-      );
+      throw new HttpException(409, `You're email ${userData.email} already exists`);
     }
   }
 

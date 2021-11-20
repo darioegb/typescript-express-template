@@ -1,8 +1,7 @@
 import { Model, Document } from 'mongoose';
-import { Page } from '@/data/interfaces';
-import { HttpException } from '@/exceptions';
-import { splitByParamOrUndefined } from '@/utils/util';
-import { stringsOrUndefined } from '@/utils';
+import { Page } from '@interfaces';
+import { HttpException } from '@exceptions';
+import { splitByParamOrUndefined, stringsOrUndefined } from '@utils';
 
 export default abstract class BaseCrudService<S, D> {
   public model!: Model<D & Document, unknown>;
@@ -12,10 +11,7 @@ export default abstract class BaseCrudService<S, D> {
    * @param id string
    */
   public async findEntityById(id: string, filter = ''): Promise<D> {
-    const findEntity: D = await this.model
-      .findById(id)
-      .select(filter)
-      .exec();
+    const findEntity: D = await this.model.findById(id).select(filter).exec();
     if (!findEntity) {
       throw new HttpException(404, 'Not found');
     }
@@ -29,12 +25,7 @@ export default abstract class BaseCrudService<S, D> {
    * @param sort string by ex. name, asc
    * @param filter string by ex. name email
    */
-  public async findEntityByPage(
-    page = 1,
-    size = 10,
-    sort = '',
-    filter = ''
-  ): Promise<Page<D>> {
+  public async findEntityByPage(page = 1, size = 10, sort = '', filter = ''): Promise<Page<D>> {
     const splitSort: stringsOrUndefined = splitByParamOrUndefined(sort);
     const sortObject: unknown = this.getSortObject(splitSort);
     const entities: D[] = await this.model
@@ -74,9 +65,7 @@ export default abstract class BaseCrudService<S, D> {
    * @param entityData entityDTO
    */
   public async update(id: string, entityData: S): Promise<D> {
-    const updateEntityById: D = await this.model
-      .findByIdAndUpdate(id, { ...entityData }, { new: true })
-      .exec();
+    const updateEntityById: D = await this.model.findByIdAndUpdate(id, { ...entityData }, { new: true }).exec();
     if (!updateEntityById) {
       throw new HttpException(409, "You're entity doesn't exist");
     }
@@ -89,9 +78,7 @@ export default abstract class BaseCrudService<S, D> {
    * @param id string
    */
   public async delete(id: string): Promise<D> {
-    const deleteEntityById: D = await this.model
-      .findByIdAndDelete(id)
-      .exec();
+    const deleteEntityById: D = await this.model.findByIdAndDelete(id).exec();
     if (!deleteEntityById) {
       throw new HttpException(409, "You're entity doesn't exist");
     }

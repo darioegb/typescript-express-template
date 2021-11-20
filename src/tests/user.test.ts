@@ -1,12 +1,13 @@
 import request from 'supertest';
-import { App, DBHandler } from '@/config';
-import { UserController } from '@/controllers';
-import { AuthService } from '@/services';
-import { Page, User } from '@/data/interfaces';
-import { UserDto } from '@/data/dtos';
-import { Roles } from '@/data/enums';
+import { DBHandler } from '@config';
+import { UserController } from '@controllers';
+import { AuthService } from '@services';
+import { Page, User } from '@interfaces';
+import { UserDto } from '@dtos';
+import { Roles } from '@enums';
 import { Collection, Connection, Types } from 'mongoose';
 import { hash } from 'bcryptjs';
+import App from '@/app';
 
 describe('Testing Users', () => {
   let app: App;
@@ -50,9 +51,7 @@ describe('Testing Users', () => {
 
   describe('GET /users', () => {
     it('should return a list of users', async () => {
-      const { status, body } = await request(app.getServer())
-        .get(`${userController.path}`)
-        .set('Authorization', `Bearer ${token}`);
+      const { status, body } = await request(app.getServer()).get(`${userController.path}`).set('Authorization', `Bearer ${token}`);
 
       expect(status).toBe(200);
       expect(body.data).toBeDefined();
@@ -61,9 +60,7 @@ describe('Testing Users', () => {
 
     it('should return a list of users filtered', async () => {
       const { status, body } = await request(app.getServer())
-        .get(
-          `${userController.path}?page=1&size=3&sort=email,desc&filter=firstName lastName email`
-        )
+        .get(`${userController.path}?page=1&size=3&sort=email,desc&filter=firstName lastName email`)
         .set('Authorization', `Bearer ${token}`);
 
       expect(status).toBe(200);
@@ -84,13 +81,9 @@ describe('Testing Users', () => {
         totalItems: 0,
         totalPages: 1,
       };
-      userController.userService.findEntityByPage = jest
-        .fn()
-        .mockReturnValueOnce(mockUserPage);
+      userController.userService.findEntityByPage = jest.fn().mockReturnValueOnce(mockUserPage);
 
-      const { status, body } = await request(app.getServer())
-        .get(`${userController.path}`)
-        .set('Authorization', `Bearer ${token}`);
+      const { status, body } = await request(app.getServer()).get(`${userController.path}`).set('Authorization', `Bearer ${token}`);
 
       expect(status).toBe(200);
       expect(body.data.items).toHaveLength(0);
@@ -107,9 +100,7 @@ describe('Testing Users', () => {
       expect(error && error.text).toMatch("You're not user");
     });
     it('should return a user', async () => {
-      const { status, body } = await request(app.getServer())
-        .get(`${userController.path}/${loginUserId}`)
-        .set('Authorization', `Bearer ${token}`);
+      const { status, body } = await request(app.getServer()).get(`${userController.path}/${loginUserId}`).set('Authorization', `Bearer ${token}`);
 
       expect(status).toBe(200);
       expect(body.data).toBeDefined();
@@ -127,10 +118,7 @@ describe('Testing Users', () => {
         role: Roles.User,
       };
 
-      const { status, body } = await request(app.getServer())
-        .post(`${userController.path}`)
-        .set('Authorization', `Bearer ${token}`)
-        .send(mockUser);
+      const { status, body } = await request(app.getServer()).post(`${userController.path}`).set('Authorization', `Bearer ${token}`).send(mockUser);
 
       expect(status).toBe(201);
       expect(body.data).toBeDefined();
@@ -155,10 +143,7 @@ describe('Testing Users', () => {
         },
       ];
 
-      const { status, body } = await request(app.getServer())
-        .post(`${userController.path}`)
-        .set('Authorization', `Bearer ${token}`)
-        .send(mockUsers);
+      const { status, body } = await request(app.getServer()).post(`${userController.path}`).set('Authorization', `Bearer ${token}`).send(mockUsers);
 
       expect(status).toBe(201);
       expect(body.data).toBeDefined();
@@ -173,15 +158,10 @@ describe('Testing Users', () => {
         role: Roles.User,
       };
 
-      const { status, error } = await request(app.getServer())
-        .post(`${userController.path}`)
-        .set('Authorization', `Bearer ${token}`)
-        .send(mockUser);
+      const { status, error } = await request(app.getServer()).post(`${userController.path}`).set('Authorization', `Bearer ${token}`).send(mockUser);
 
       expect(status).toBe(400);
-      expect(error && error.text && JSON.parse(error.text).message).toContain(
-        'firstName should not be empty'
-      );
+      expect(error && error.text && JSON.parse(error.text).message).toContain('firstName should not be empty');
     });
   });
 
@@ -193,9 +173,7 @@ describe('Testing Users', () => {
         .send({ firstName: 'Test 1' });
 
       expect(status).toBe(404);
-      expect(error && error.text && JSON.parse(error.text).message).toContain(
-        "You're user with id"
-      );
+      expect(error && error.text && JSON.parse(error.text).message).toContain("You're user with id");
     });
     it('should return error while user isNotAdminOrSameUser', async () => {
       const mockUser: User = {
@@ -211,9 +189,7 @@ describe('Testing Users', () => {
       const authService = new AuthService();
       await userCollection.insertOne(mockUser);
       const auxToken = authService.createToken(mockUser);
-      const editUser = await userController.userService.findEntityById(
-        loginUserId
-      );
+      const editUser = await userController.userService.findEntityById(loginUserId);
       editUser.firstName = 'Login Updated';
       const { status, error } = await request(app.getServer())
         .put(`${userController.path}/${loginUserId}`)
@@ -221,14 +197,10 @@ describe('Testing Users', () => {
         .send(editUser);
 
       expect(status).toBe(403);
-      expect(error && error.text && JSON.parse(error.text).message).toContain(
-        'You have no privilege to do that'
-      );
+      expect(error && error.text && JSON.parse(error.text).message).toContain('You have no privilege to do that');
     });
     it('should update a user', async () => {
-      const editUser = await userController.userService.findEntityById(
-        loginUserId
-      );
+      const editUser = await userController.userService.findEntityById(loginUserId);
       editUser.firstName = 'Login Updated';
       const { status, body } = await request(app.getServer())
         .put(`${userController.path}/${loginUserId}`)
@@ -248,9 +220,7 @@ describe('Testing Users', () => {
         .set('Authorization', `Bearer ${token}`);
 
       expect(status).toBe(409);
-      expect(error && error.text && JSON.parse(error.text).message).toMatch(
-        "You're entity doesn't exist"
-      );
+      expect(error && error.text && JSON.parse(error.text).message).toMatch("You're entity doesn't exist");
     });
     it('should return error while user isNotAdmin', async () => {
       const mockUser: User = {
@@ -271,14 +241,10 @@ describe('Testing Users', () => {
         .set('Authorization', `Bearer ${auxToken}`);
 
       expect(status).toBe(403);
-      expect(error && error.text && JSON.parse(error.text).message).toContain(
-        'You have no privilege to do that'
-      );
+      expect(error && error.text && JSON.parse(error.text).message).toContain('You have no privilege to do that');
     });
     it('should delete a user', async () => {
-      const { status, body } = await request(app.getServer())
-        .delete(`${userController.path}/${loginUserId}`)
-        .set('Authorization', `Bearer ${token}`);
+      const { status, body } = await request(app.getServer()).delete(`${userController.path}/${loginUserId}`).set('Authorization', `Bearer ${token}`);
 
       expect(status).toBe(200);
       expect(body.data).toBeDefined();

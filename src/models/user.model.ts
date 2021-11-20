@@ -1,8 +1,8 @@
 import { Schema, Document, model } from 'mongoose';
 import mongooseUniqueValidator from 'mongoose-unique-validator';
 
-import { User } from '@/data/interfaces';
-import { Roles } from '@/data/enums';
+import { User } from '@interfaces';
+import { Roles } from '@enums';
 
 const userSchema = new Schema(
   {
@@ -37,9 +37,13 @@ const userSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      versionKey: false,
       getters: true,
+      transform: function (_doc, ret) {
+        delete ret._id;
+      },
     },
-  }
+  },
 );
 
 userSchema.virtual('fullName').get(function () {

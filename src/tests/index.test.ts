@@ -1,10 +1,10 @@
 import request from 'supertest';
-import { App } from '@/config/index';
+import App from '@/app';
 import { IndexController } from '@/controllers';
 
 describe('Testing Index', () => {
   afterAll(async () => {
-    await new Promise((resolve) => setTimeout(() => resolve(), 500));
+    await new Promise<void>((resolve) => setTimeout(() => resolve(), 500));
   });
 
   let indexController: IndexController;
@@ -17,9 +17,7 @@ describe('Testing Index', () => {
 
   describe('[GET] /', () => {
     it('response statusCode 200', async () => {
-      const { status, body } = await request(app.getServer()).get(
-        `${indexController.path}`
-      );
+      const { status, body } = await request(app.getServer()).get(`${indexController.path}`);
       expect(status).toBe(200);
       expect(body.message).toBeDefined();
     });

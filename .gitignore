@@ -1,8 +1,9 @@
 # compiled output
-/build
+/dist
 
 # dependencies
 /node_modules
+package-lock.json
 
 # IDEs and editors
 /.idea
@@ -31,4 +32,5 @@ coverage
 .scannerwork
 
 #environment
-.env.*
+.env
+.env*
